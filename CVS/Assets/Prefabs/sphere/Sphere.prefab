@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 135667330537211402}
   - component: {fileID: 23756936792536072}
   - component: {fileID: 195123049514789544}
+  - component: {fileID: 114229435525373846}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -84,6 +85,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1132278158836942}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114229435525373846
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132278158836942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f86b65287dbc16340894027e1424ed4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135667330537211402
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -105,7 +117,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
