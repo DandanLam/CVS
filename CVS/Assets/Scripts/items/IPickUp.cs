@@ -1,6 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-public interface IPickUp{
+﻿public interface IPickUp{
     void PickMeUp();    
 }

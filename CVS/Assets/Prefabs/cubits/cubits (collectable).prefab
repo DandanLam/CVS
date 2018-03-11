@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23131774517164254}
   - component: {fileID: 114560086111918084}
   m_Layer: 0
-  m_Name: cubits
+  m_Name: cubits (collectable)
   m_TagString: pickable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

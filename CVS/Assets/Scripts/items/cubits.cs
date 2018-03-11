@@ -12,4 +12,8 @@ public class cubits : MonoBehaviour, IPickUp{
         DestroyObject(this.gameObject);
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+       // Destroy(gameObject);
+    }
 }
