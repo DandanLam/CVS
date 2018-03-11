@@ -7,7 +7,6 @@ public class Player : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
 	}
 
     void Update()
@@ -21,5 +20,15 @@ public class Player : NetworkBehaviour {
 
         transform.Rotate(0, x, 0);
         transform.Translate(0, 0, z);
+        
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "pickable")
+        {
+            other.GetComponent<IPickUp>().PickMeUp();
+        }
+    }
+
 }
