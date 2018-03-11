@@ -32,3 +32,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+CVS/.vs/CVS/v15/Server/sqlite3/storage.ide
+*.ide
+CVS/Library/assetDatabase3
+CVS/Library/InspectorExpandedItems.asset
+CVS/Library/CurrentLayout.dwlt
