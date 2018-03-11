@@ -2,9 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Player : NetworkBehaviour {
+    
+    [SerializeField]
+    private Text myCubitsNumberText;
 
+    private int cubitsNum;
+
+    public int CubitsNum
+    {
+        get { return cubitsNum; }
+        set
+        {
+            cubitsNum = value;
+            myCubitsNumberText.text = value+"";
+
+        }
+    }
+
+    
 	// Use this for initialization
 	void Start () {
 	}
@@ -28,6 +46,7 @@ public class Player : NetworkBehaviour {
         if(other.tag == "pickable")
         {
             other.GetComponent<IPickUp>().PickMeUp();
+            CubitsNum++;
         }
     }
 

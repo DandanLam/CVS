@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 3}
-  m_MinSize: {x: 950, y: 542}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -68,7 +68,7 @@ MonoBehaviour:
     y: 0
     width: 1920
     height: 997
-  m_MinSize: {x: 950, y: 542}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &4
 MonoBehaviour:
@@ -278,8 +278,8 @@ MonoBehaviour:
     y: 0
     width: 465
     height: 947
-  m_MinSize: {x: 277, y: 71}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 20}
@@ -451,14 +451,14 @@ MonoBehaviour:
     height: 712
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneLighting: 0
-  lastFramingTime: 36.97611007396592
+  lastFramingTime: 1068.1768257201747
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -2.25, y: 0.96000004, z: 1.77}
+    m_Target: {x: 10.37, y: 0.87398434, z: -4.055078}
     speed: 2
-    m_Value: {x: -2.25, y: 0.96000004, z: 1.77}
+    m_Value: {x: 10.37, y: 0.87398434, z: -4.055078}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -482,13 +482,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.1812623, y: 0.087510966, z: -0.016184678, w: 0.97941965}
+    m_Target: {x: 0.18829979, y: 0.34427604, z: -0.07067159, w: 0.91710865}
     speed: 2
-    m_Value: {x: 0.18125878, y: 0.08750927, z: -0.016184364, w: 0.97940063}
+    m_Value: {x: 0.18829362, y: 0.34426475, z: -0.07066927, w: 0.9170786}
   m_Size:
-    m_Target: 2.272367
+    m_Target: 10.907417
     speed: 2
-    m_Value: 2.272367
+    m_Value: 10.907417
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -558,26 +558,26 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 98fbffff00000000
+    m_ExpandedIDs: b20ffdff6cfbffff96fbffff98fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: cube
+      m_OriginalName: cube
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: -190948
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 2}
     m_SearchString: 
   m_ExpandedScenes:
-  - DanielTestScene
+  - dannyTestScene
   m_CurrenRootInstanceID: 0
   m_Locked: 0
   m_CurrentSortingName: TransformSorting
@@ -620,19 +620,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Prefabs/sphere
+    - Assets/Material/obstacles
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Prefabs/sphere
+  - Assets/Material/obstacles
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\Danny\GitHub\CVS\CVS
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 88270000
-    m_LastClickedID: 10120
-    m_ExpandedIDs: 0000000082270000c2270000d82700001228000000ca9a3bffffff7f
+    m_SelectedIDs: 123f0000
+    m_LastClickedID: 16146
+    m_ExpandedIDs: 0000000084270000c8270000de270000f02700001a28000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -660,7 +660,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 44230000
     m_LastClickedID: 9028
-    m_ExpandedIDs: 0000000082270000d827000012280000
+    m_ExpandedIDs: 0000000084270000c8270000de2700001a280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
