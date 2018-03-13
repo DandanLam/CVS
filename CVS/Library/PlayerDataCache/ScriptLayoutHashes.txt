@@ -143,3 +143,4 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 9de3a22eca9aefadba2d10d5987cefe3 UnityEngine.SpatialTracking.dll:UnityEngine.SpatialTracking.TrackedPoseDriver
 2cca7d78aa34ce3c4eec2ebda5dfa60f Assembly-CSharp.dll:.Player
 f81d7bf8e579889da6091b5693a22985 Assembly-CSharp.dll:.SpawnObjects
+f55a2e9e2500b61543ca0216694d1b52 Assembly-CSharp.dll:.SyncPlayerPosition

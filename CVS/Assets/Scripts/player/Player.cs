@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Player : NetworkBehaviour {
     
+    
+
     [SerializeField]
     private Text myCubitsNumberText;
 
