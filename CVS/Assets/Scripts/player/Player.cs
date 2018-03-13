@@ -31,8 +31,16 @@ public class Player : NetworkBehaviour {
 
     [SerializeField]
     private Transform spawnPoint;
-	// Use this for initialization
+    // Use this for initialization
+
+    [SerializeField]
+    private GameObject clientOnlyObjects;
+    
 	void Start () {
+        if (!isLocalPlayer)
+        {
+            clientOnlyObjects.SetActive(false);
+        }
 	}
 
     void Update()
@@ -41,6 +49,7 @@ public class Player : NetworkBehaviour {
         {
             return;
         }
+
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
         var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
 
@@ -62,7 +71,7 @@ public class Player : NetworkBehaviour {
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                ThrowCube(hit.point);
+                CmdThrowCube(hit.point);
                 
             }
         }
@@ -70,8 +79,8 @@ public class Player : NetworkBehaviour {
     }
 
 
-
-    void ThrowCube(Vector3 location)
+    [Command]
+    void CmdThrowCube(Vector3 location)
     {
         Vector3 location1 = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         GameObject cubeBall = Instantiate(throwableCubePrefab, spawnPoint.position, transform.rotation) as GameObject;
@@ -79,6 +88,8 @@ public class Player : NetworkBehaviour {
         Vector3 leveledLocation = new Vector3(location.x, transform.position.y, location.z);
         Vector3 targetVector = leveledLocation - transform.position;
         cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange; //cubeBall.transform.forward * 5;
+
+        NetworkServer.Spawn(cubeBall);
         // Destroy the bullet after 2 seconds
        //Destroy(bullet, 2.0f);
 
