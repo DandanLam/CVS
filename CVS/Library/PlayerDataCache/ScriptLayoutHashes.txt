@@ -1,6 +1,6 @@
 WindowsStandalone
 SceneListBegin?
-Assets/Scenes/dannyTestScene.unity
+Assets/Scenes/main.unity
 SceneListEnd?
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationPlayableAsset
 dbc29a6f2739d277c10da432d73adb6d UnityEngine.Timeline.dll:UnityEngine.Timeline.ActivationTrack
@@ -144,3 +144,5 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 2cca7d78aa34ce3c4eec2ebda5dfa60f Assembly-CSharp.dll:.Player
 f81d7bf8e579889da6091b5693a22985 Assembly-CSharp.dll:.SpawnObjects
 f55a2e9e2500b61543ca0216694d1b52 Assembly-CSharp.dll:.SyncPlayerPosition
+8e2a34ed0c52f5d093c8b54651b07998 Assembly-CSharp.dll:.Health
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.HPBarBillboarding

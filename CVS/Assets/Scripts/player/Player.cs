@@ -37,7 +37,9 @@ public class Player : NetworkBehaviour {
 
     [SerializeField]
     private GameObject clientOnlyObjects;
-    
+
+
+
 	void Start () {
         if (!isLocalPlayer)
         {
@@ -62,13 +64,13 @@ public class Player : NetworkBehaviour {
         //TODO will change when VR implementation
         if (Input.GetMouseButtonDown(0))
         {
-            /*
+            
             if (CubitsNum <= 0)
             {
                 return;
             }
             CubitsNum--;
-            */
+            
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -79,7 +81,6 @@ public class Player : NetworkBehaviour {
         }
     
     }
-
 
     [Command]
     void CmdThrowCube(Vector3 location)

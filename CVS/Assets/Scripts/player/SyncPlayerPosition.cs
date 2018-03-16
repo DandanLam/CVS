@@ -45,9 +45,10 @@ public class SyncPlayerPosition : NetworkBehaviour {
     }
 
     [ClientCallback]
-    void TransmitPosition()
-    {
-        CmdProvidePositionToServer(myTransform.position, myTransform.rotation);
+    void TransmitPosition(){
+        if (isLocalPlayer) { 
+            CmdProvidePositionToServer(myTransform.position, myTransform.rotation);
+        }
     }
 
 

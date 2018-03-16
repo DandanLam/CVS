@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/dannyTestScene.unity
-    guid: 1095ec6377859124187d5977c9ee0fce
+    path: Assets/Scenes/main.unity
+    guid: ae0176588fb27424ca3b236dc7affb09
