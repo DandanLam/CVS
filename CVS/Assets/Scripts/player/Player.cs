@@ -5,18 +5,30 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class Player : NetworkBehaviour {
-    
-    
 
+
+
+    #region UI Sfuff
     [SerializeField]
     private Text myCubitsNumberText;
+    [SerializeField]
+    private Text numPlayerText;
+    [SerializeField]
+    private Text numSpheresText;
+
+    void UpdateUI()
+    {
+        numPlayerText.text = NetworkServer.connections.Count.ToString();
+    }
+
+    #endregion
 
     [SerializeField]
     private float tossRange = 5;
 
+
     [SerializeField]
     private int cubitsNum;
-
     public int CubitsNum
     {
         get { return cubitsNum; }
@@ -37,8 +49,7 @@ public class Player : NetworkBehaviour {
 
     [SerializeField]
     private GameObject clientOnlyObjects;
-
-
+    
 
 	void Start () {
         if (!isLocalPlayer)
@@ -79,7 +90,9 @@ public class Player : NetworkBehaviour {
                 
             }
         }
-    
+        UpdateUI();
+
+
     }
 
     [Command]
@@ -94,7 +107,7 @@ public class Player : NetworkBehaviour {
 
         NetworkServer.Spawn(cubeBall);
         // Destroy the bullet after 2 seconds
-       //Destroy(bullet, 2.0f);
+       //Destroy(bullet, 2.0f);    
 
     }
 
@@ -108,5 +121,6 @@ public class Player : NetworkBehaviour {
             CubitsNum++;
         }
     }
+    
 
 }
