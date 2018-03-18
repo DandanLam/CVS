@@ -83,7 +83,6 @@ public class Player : NetworkBehaviour {
             if (Physics.Raycast(ray, out hit))
             {
                 CmdThrowCube(hit.point);
-                
             }
         }
         UpdateUI();
