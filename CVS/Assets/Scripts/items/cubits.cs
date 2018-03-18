@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class cubits : MonoBehaviour, IPickUp{
+using UnityEngine.Networking;
+
+public class cubits : NetworkBehaviour, IPickUp{
 
 	
     public void PickMeUp()
@@ -21,7 +23,7 @@ public class cubits : MonoBehaviour, IPickUp{
                 health.TakeDamage(-5);
             }
         }
-        Destroy(gameObject);
+        NetworkServer.UnSpawn(gameObject);
     }
 
     

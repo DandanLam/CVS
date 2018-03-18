@@ -12,8 +12,8 @@ public class SpawnObjects : NetworkBehaviour {
     private Vector3 planeCenterPosition;
     private Vector3 planeScale;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    public override void OnStartServer() {
         GameObject plane = GameObject.Find("Plane");
 
         Transform planeTransform = plane.transform;
@@ -25,7 +25,7 @@ public class SpawnObjects : NetworkBehaviour {
 
         for (int i=1; i < spawnByNumber; i++)
         {
-            CmdSpawnPrefab();
+            SpawnPrefab();
         }
 	}
 	
@@ -33,8 +33,7 @@ public class SpawnObjects : NetworkBehaviour {
 	void Update () {
 	}
 
-    [Command]
-    public void CmdSpawnPrefab()
+    public void SpawnPrefab()
     {
         Vector3 newPos = planeCenterPosition + new Vector3(Random.Range(-planeScale.x * planeScale.x, planeScale.x * planeScale.x), 0, Random.Range(-planeScale.z * planeScale.z, planeScale.z * planeScale.z));
         GameObject instance = Instantiate(prefab, newPos, Quaternion.identity) as GameObject;
