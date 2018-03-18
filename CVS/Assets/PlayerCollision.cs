@@ -1,28 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class cubits : MonoBehaviour, IPickUp{
 
-	
-    public void PickMeUp()
-    {
-        //do someothing here
-        Debug.Log("Picked up cube!");
-        DestroyObject(this.gameObject);
-    }
+public class PlayerCollision : MonoBehaviour {
+
+	// Use this for initialization
+	void Start () {
+		
+	}
 
     void OnCollisionEnter(Collision collision)
     {
         var hit = collision.gameObject;
-        if (hit.tag == "Player") { 
+        if (hit.tag == "Player")
+        {
+            var player = hit.GetComponent<Player>();
+            player.IsFrozen = true;
             var health = hit.GetComponent<Health>();
             if (health != null)
             {
-                health.TakeDamage(-5);
+                health.TakeDamage(Health.maxHealth / 4);
             }
         }
-        Destroy(gameObject);
     }
-
-    
 }

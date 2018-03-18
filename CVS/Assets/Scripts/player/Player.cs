@@ -5,8 +5,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class Player : NetworkBehaviour {
-
-
+    public bool IsFrozen = false;
 
     #region UI Sfuff
     [SerializeField]
@@ -60,7 +59,7 @@ public class Player : NetworkBehaviour {
 
     void Update()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || IsFrozen)
             return;
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
         var z = Input.GetAxis("Vertical") * Time.deltaTime * (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift) ? 5.0f : 3.0f);

@@ -6,11 +6,12 @@ using UnityEngine.Networking;
 
 public class Health : NetworkBehaviour {
 
-
     public const int maxHealth = 100;
 
     [SyncVar(hook = "OnChangeHealth")]
     public int currentHealth = maxHealth;
+
+    //public bool IsDead = { get { return currentHealth <= 0 ? true : false; } }
 
     
     public RectTransform healthBar;
@@ -36,13 +37,18 @@ public class Health : NetworkBehaviour {
         if (currentHealth <= 0)
         {
             Debug.Log("Dead!");
+            GetComponentInParent<Player>().IsFrozen = true;
         }
     }
 
     void OnChangeHealth(int currentHealth)
     {
         healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
-
+        if (currentHealth > 0)
+        {
+            var parentObject = GetComponentInParent<Player>();
+            if (parentObject.IsFrozen)
+                parentObject.IsFrozen = false;
+        }
     }
-
 }
