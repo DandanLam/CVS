@@ -17,6 +17,8 @@ public class PlayerTracking : MonoBehaviour {
         if (mySphereNumber < 0)
             mySphereNumber = sphereCount++;
         var targetConnection = mySphereNumber == 0 ? NetworkServer.connections[0] : NetworkServer.connections[mySphereNumber % NetworkServer.connections.Count];
+        if (targetConnection.playerControllers.Count == 0)
+            return;
         var targetController = targetConnection.playerControllers[0];
         if (targetController == null)
             return;
