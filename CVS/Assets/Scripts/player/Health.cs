@@ -34,25 +34,16 @@ public class Health : NetworkBehaviour {
         if (!isServer)        
             return;
         
-        currentHealth -= amount;
+        currentHealth = amount > currentHealth ? 0 : currentHealth - amount;
         if (currentHealth >= maxHealth)
             currentHealth = maxHealth;
-        if (currentHealth <= 0)
-        {
-            currentHealth = 0;
-            Debug.Log("Dead!");
-            GetComponentInParent<Player>().IsFrozen = true;
-        }
+        
     }
 
     void OnChangeHealth(int currentHealth)
     {
         healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
-        if (currentHealth > 0)
-        {
-            var parentObject = GetComponentInParent<Player>();
-            if (parentObject.IsFrozen)
-                parentObject.IsFrozen = false;
-        }
+        var parentObject = GetComponentInParent<Player>();
+        parentObject.IsFrozen = currentHealth > 0 ? false : true;
     }
 }
