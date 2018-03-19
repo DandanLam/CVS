@@ -59,11 +59,21 @@ public class Player : NetworkBehaviour {
 
     void Update()
     {
+        float runSpeed = 5;
+        float walkSpeed = 3;
+
         UpdateUI();
         if (!isLocalPlayer || IsFrozen)
             return;
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-        var z = Input.GetAxis("Vertical") * Time.deltaTime * (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift) ? 5.0f : 3.0f);
+        var verticalAxis = Input.GetAxis("Vertical");
+        if (verticalAxis < 0)
+        {
+            runSpeed  = 2.5f;
+            walkSpeed = 2.5f;
+        }
+        var z = verticalAxis * Time.deltaTime * (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed);
+
         transform.Rotate(0, x, 0);
         transform.Translate(0, 0, z);
 
