@@ -18,7 +18,7 @@ public class Player : NetworkBehaviour {
     void UpdateUI()
     {
         numPlayerText.text = NetworkServer.connections.Count.ToString();
-        Debug.Log("Number of connected Players : " + NetworkServer.connections.Count.ToString());
+        //Debug.Log("Number of connected Players : " + NetworkServer.connections.Count.ToString());
     }
 
     #endregion

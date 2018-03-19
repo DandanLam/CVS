@@ -5,17 +5,62 @@ using UnityEngine.Networking;
 
 public class SpawnObjects : NetworkBehaviour {
 
-    public GameObject prefab;  //indicate this is a prefab and not an object in the game
+    public GameObject prefab;
 
-    public int spawnByNumber; 
+    public int spawnByNumber;
+    public bool respawnEnabled;
+    public float respawnTimerInSec;
 
-    private Vector3 planeCenterPosition;
     private Vector3 planeScale;
+    private Vector3 planeCenterPosition;
+    private float timer;
 
     // Use this for initialization
     public override void OnStartServer() {
         if (!isServer)
             return;
+
+        InitializeVariables();
+        SpawnPrefabs();
+	}
+	
+	// Update is called once per frame
+	void Update () {
+        RespawnPrefabs();
+	}
+
+    public void RespawnPrefabs() {
+        if (!respawnEnabled)
+            return;
+
+        timer += Time.deltaTime;
+
+        if (timer > respawnTimerInSec) {
+            int numberOfPrefabsToRespawn = GetNumberOfPrefabsToRespawn();
+            
+            for (int i = 0; i < numberOfPrefabsToRespawn; i++) {
+                SpawnPrefab();
+            }
+            
+            timer = 0f;
+
+            Debug.Log("Respawning " + numberOfPrefabsToRespawn + " " + prefab.name);
+        }
+    }
+
+    public int GetNumberOfPrefabsToRespawn() {
+        int existingGameObjectsCount = 0;
+
+        foreach (GameObject go in GameObject.FindObjectsOfType(typeof(GameObject))) {
+            if (go.name == (prefab.name + "(Clone)")) {
+                existingGameObjectsCount++;
+            }
+        }
+
+        return spawnByNumber - existingGameObjectsCount;
+    }
+
+    public void InitializeVariables() {
         GameObject plane = GameObject.Find("Plane");
 
         Transform planeTransform = plane.transform;
@@ -23,23 +68,26 @@ public class SpawnObjects : NetworkBehaviour {
         planeScale = planeTransform.localScale;
         planeCenterPosition = planeTransform.position;
 
-        //float numberOfSpawnObjects = (spawnByPercentageRelativeToPlane / 100) * (planeScale.x * planeScale.x);
-
-        for (int i=1; i < spawnByNumber; i++)
-        {
-            SpawnPrefab();
-        }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
+        timer = 0f;
+    }
 
     public void SpawnPrefab()
     {
         Vector3 newPos = planeCenterPosition + new Vector3(Random.Range(-planeScale.x * planeScale.x, planeScale.x * planeScale.x), 0, Random.Range(-planeScale.z * planeScale.z, planeScale.z * planeScale.z));
         GameObject instance = Instantiate(prefab, newPos, Quaternion.identity) as GameObject;
         NetworkServer.Spawn(instance);
-        
     }
+
+    public void SpawnPrefabs() {
+        for (int i = 1; i < spawnByNumber; i++)
+        {
+            SpawnPrefab();
+        }
+    }
+
+    /*
+    public float GetNumberOfSpawnObjectsByPlaneSize(float percentageRelativeToPlane) {
+        return ((percentageRelativeToPlane / 100) * (planeScale.x * planeScale.x));
+    }
+    */
 }
