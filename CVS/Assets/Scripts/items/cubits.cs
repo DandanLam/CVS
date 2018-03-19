@@ -20,11 +20,9 @@ public class cubits : NetworkBehaviour, IPickUp{
             var health = hit.GetComponent<Health>();
             if (health != null)
             {
-                health.TakeDamage(-5);
+                health.TakeDamage(-(Health.maxHealth / 4));
             }
         }
         NetworkServer.Destroy(gameObject);
     }
-    
-    
 }

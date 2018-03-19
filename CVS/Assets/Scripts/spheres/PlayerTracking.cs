@@ -17,13 +17,11 @@ public class PlayerTracking : MonoBehaviour {
 	void Update () {
         if (mySphereNumber < 0)
             mySphereNumber = sphereCount++;
-        var targetConnection = NetworkServer.connections.Count == 0 || mySphereNumber == 0 ? NetworkServer.connections[0] : NetworkServer.connections[mySphereNumber % NetworkServer.connections.Count];
-        if (targetConnection.playerControllers.Count == 0)
+
+        var activePlayers = GetActivePlayerGameObjects();
+        if (activePlayers.Count == 0)
             return;
-        var targetController = targetConnection.playerControllers[0];
-        if (targetController == null)
-            return;
-        var playerGameObject = targetController.gameObject;
+        var playerGameObject = activePlayers[CalcPlayerToFollow(activePlayers.Count)];
         if (playerGameObject != null)
         {
             Transform playerTransform = playerGameObject.transform;
@@ -31,5 +29,34 @@ public class PlayerTracking : MonoBehaviour {
             Vector3 playerPosition = playerTransform.position;
             GetComponent<NavMeshAgent>().SetDestination(playerPosition);
         }
+    }
+
+    int CalcPlayerToFollow(int activePlayers)
+    {
+        if (activePlayers == 0)
+            return -1;
+        else if (mySphereNumber == 0)
+            return 0;
+        else
+            return mySphereNumber % activePlayers;
+    }
+
+    List<GameObject> GetActivePlayerGameObjects()
+    {
+        var activePlayerConnections = new List<GameObject>();
+        if (NetworkServer.connections.Count > 0)
+        {
+            foreach (var connection in NetworkServer.connections)
+            {
+                try
+                {
+                    var gameObj = connection.playerControllers[0].gameObject;
+                    if (!gameObj.GetComponent<Player>().IsFrozen)
+                        activePlayerConnections.Add(gameObj);
+                }
+                catch { }
+            }
+        }
+        return activePlayerConnections;
     }
 }
