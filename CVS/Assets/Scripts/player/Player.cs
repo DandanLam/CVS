@@ -18,6 +18,7 @@ public class Player : NetworkBehaviour {
     void UpdateUI()
     {
         numPlayerText.text = NetworkServer.connections.Count.ToString();
+        Debug.Log("Number of connected Players : " + NetworkServer.connections.Count.ToString());
     }
 
     #endregion
@@ -59,9 +60,14 @@ public class Player : NetworkBehaviour {
 
     void Update()
     {
-        UpdateUI();
-        if (!isLocalPlayer || IsFrozen)
+        if (!isLocalPlayer) { 
             return;
+        }
+
+        UpdateUI();
+        if (IsFrozen)
+            return;
+
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
         var z = Input.GetAxis("Vertical") * Time.deltaTime * (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift) ? 5.0f : 3.0f);
         transform.Rotate(0, x, 0);
