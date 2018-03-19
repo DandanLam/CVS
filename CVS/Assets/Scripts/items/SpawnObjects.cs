@@ -14,6 +14,8 @@ public class SpawnObjects : NetworkBehaviour {
 
     // Use this for initialization
     public override void OnStartServer() {
+        if (!isServer)
+            return;
         GameObject plane = GameObject.Find("Plane");
 
         Transform planeTransform = plane.transform;

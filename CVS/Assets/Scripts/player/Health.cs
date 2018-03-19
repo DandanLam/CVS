@@ -22,9 +22,10 @@ public class Health : NetworkBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	void FixedUpdate () {
+        OnChangeHealth(currentHealth);
+
+    }
 
 
 
@@ -34,8 +35,11 @@ public class Health : NetworkBehaviour {
             return;
         
         currentHealth -= amount;
+        if (currentHealth >= maxHealth)
+            currentHealth = maxHealth;
         if (currentHealth <= 0)
         {
+            currentHealth = 0;
             Debug.Log("Dead!");
             GetComponentInParent<Player>().IsFrozen = true;
         }

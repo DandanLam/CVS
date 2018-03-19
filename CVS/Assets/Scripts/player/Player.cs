@@ -59,6 +59,7 @@ public class Player : NetworkBehaviour {
 
     void Update()
     {
+        UpdateUI();
         if (!isLocalPlayer || IsFrozen)
             return;
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
@@ -84,7 +85,6 @@ public class Player : NetworkBehaviour {
                 CmdThrowCube(hit.point);
             }
         }
-        UpdateUI();
     }
 
     [Command]
