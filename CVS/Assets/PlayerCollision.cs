@@ -9,9 +9,9 @@ public class PlayerCollision : MonoBehaviour {
 		
 	}
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        var hit = collision.gameObject;
+        var hit = other.gameObject;
         if (hit.tag == "Player")
         {
             var player = hit.GetComponent<Player>();

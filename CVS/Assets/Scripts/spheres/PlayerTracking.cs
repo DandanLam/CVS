@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 public class PlayerTracking : MonoBehaviour {
     static int sphereCount = 0;
     int mySphereNumber = -1;
+    public Transform target;
 	// Use this for initialization
 	void Start () {
 		
@@ -26,6 +27,7 @@ public class PlayerTracking : MonoBehaviour {
         if (playerGameObject != null)
         {
             Transform playerTransform = playerGameObject.transform;
+            target = playerTransform;
             Vector3 playerPosition = playerTransform.position;
             GetComponent<NavMeshAgent>().SetDestination(playerPosition);
         }

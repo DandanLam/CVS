@@ -23,8 +23,8 @@ public class cubits : NetworkBehaviour, IPickUp{
                 health.TakeDamage(-5);
             }
         }
-        NetworkServer.UnSpawn(gameObject);
+        NetworkServer.Destroy(gameObject);
     }
-
+    
     
 }
