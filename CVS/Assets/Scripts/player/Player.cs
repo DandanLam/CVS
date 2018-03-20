@@ -105,13 +105,15 @@ public class Player : NetworkBehaviour {
     [Command]
     void CmdThrowCube(Vector3 location)
     {
-        Vector3 location1 = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-        GameObject cubeBall = Instantiate(throwableCubePrefab, spawnPoint.position, transform.rotation) as GameObject;
-
+        //Vector3 location1 = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         Vector3 leveledLocation = new Vector3(location.x, transform.position.y, location.z);
         Vector3 targetVector = leveledLocation - transform.position;
-        cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange; //cubeBall.transform.forward * 5;
 
+        var leveledSpawnPoint = transform.position + targetVector.normalized;
+        spawnPoint.position = new Vector3(leveledSpawnPoint.x, transform.position.y, leveledSpawnPoint.z);
+        GameObject cubeBall = Instantiate(throwableCubePrefab, spawnPoint.position, transform.rotation) as GameObject;
+
+        cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange; //cubeBall.transform.forward * 5;
         NetworkServer.Spawn(cubeBall);
         // Destroy the bullet after 2 seconds
        //Destroy(bullet, 2.0f);    
