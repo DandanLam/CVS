@@ -18,7 +18,7 @@ public class Player : NetworkBehaviour {
     void UpdateUI()
     {
         numPlayerText.text = NetworkServer.connections.Count.ToString();
-        Debug.Log("Number of connected Players : " + NetworkServer.connections.Count.ToString());
+        //Debug.Log("Number of connected Players : " + NetworkServer.connections.Count.ToString());
     }
 
     #endregion
@@ -60,6 +60,8 @@ public class Player : NetworkBehaviour {
 
     void Update()
     {
+        float runSpeed = 5;
+        float walkSpeed = 3;
         if (!isLocalPlayer) { 
             return;
         }
@@ -69,7 +71,14 @@ public class Player : NetworkBehaviour {
             return;
 
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-        var z = Input.GetAxis("Vertical") * Time.deltaTime * (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift) ? 5.0f : 3.0f);
+        var verticalAxis = Input.GetAxis("Vertical");
+        if (verticalAxis < 0)
+        {
+            runSpeed  = 2.5f;
+            walkSpeed = 2.5f;
+        }
+        var z = verticalAxis * Time.deltaTime * (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed);
+
         transform.Rotate(0, x, 0);
         transform.Translate(0, 0, z);
 
@@ -96,13 +105,15 @@ public class Player : NetworkBehaviour {
     [Command]
     void CmdThrowCube(Vector3 location)
     {
-        Vector3 location1 = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-        GameObject cubeBall = Instantiate(throwableCubePrefab, spawnPoint.position, transform.rotation) as GameObject;
-
+        //Vector3 location1 = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         Vector3 leveledLocation = new Vector3(location.x, transform.position.y, location.z);
         Vector3 targetVector = leveledLocation - transform.position;
-        cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange; //cubeBall.transform.forward * 5;
 
+        var leveledSpawnPoint = transform.position + targetVector.normalized;
+        spawnPoint.position = new Vector3(leveledSpawnPoint.x, transform.position.y, leveledSpawnPoint.z);
+        GameObject cubeBall = Instantiate(throwableCubePrefab, spawnPoint.position, transform.rotation) as GameObject;
+
+        cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange; //cubeBall.transform.forward * 5;
         NetworkServer.Spawn(cubeBall);
         // Destroy the bullet after 2 seconds
        //Destroy(bullet, 2.0f);    
