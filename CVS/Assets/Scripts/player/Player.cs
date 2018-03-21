@@ -24,8 +24,10 @@ public class Player : NetworkBehaviour {
     #endregion
 
     [SerializeField]
-    private float tossRange = 5;
+    private float tossRange = 5f;
 
+    [SerializeField]
+    private float distancefromPlayer = 1.1f;
 
     [SerializeField]
     private int cubitsNum;
@@ -42,9 +44,7 @@ public class Player : NetworkBehaviour {
 
     [SerializeField]
     private GameObject throwableCubePrefab;
-
-    [SerializeField]
-    private Transform spawnPoint;
+    
     // Use this for initialization
 
     [SerializeField]
@@ -105,18 +105,15 @@ public class Player : NetworkBehaviour {
     [Command]
     void CmdThrowCube(Vector3 location)
     {
-        //Vector3 location1 = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+
         Vector3 leveledLocation = new Vector3(location.x, transform.position.y, location.z);
         Vector3 targetVector = leveledLocation - transform.position;
 
-        var leveledSpawnPoint = transform.position + targetVector.normalized;
-        spawnPoint.position = new Vector3(leveledSpawnPoint.x, transform.position.y, leveledSpawnPoint.z);
-        GameObject cubeBall = Instantiate(throwableCubePrefab, spawnPoint.position, transform.rotation) as GameObject;
+        var leveledSpawnPoint = transform.position + targetVector.normalized * distancefromPlayer;
+        GameObject cubeBall = Instantiate(throwableCubePrefab, leveledSpawnPoint, transform.rotation) as GameObject;
 
         cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange; //cubeBall.transform.forward * 5;
         NetworkServer.Spawn(cubeBall);
-        // Destroy the bullet after 2 seconds
-       //Destroy(bullet, 2.0f);    
 
     }
 
