@@ -18,12 +18,11 @@ public class Health : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}
+        OnChangeHealth(currentHealth);
+    }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        OnChangeHealth(currentHealth);
 
     }
 
