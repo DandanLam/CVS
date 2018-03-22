@@ -13,9 +13,8 @@ public class Health : NetworkBehaviour {
 
     //public bool IsDead = { get { return currentHealth <= 0 ? true : false; } }
 
-    
+    bool WasLastHealthZero = false;
     public RectTransform healthBar;
-
     // Use this for initialization
     void Start () {
         OnChangeHealth(currentHealth);
@@ -26,8 +25,6 @@ public class Health : NetworkBehaviour {
 
     }
 
-
-
     public void TakeDamage(int amount)
     {
         if (!isServer)        
@@ -37,12 +34,31 @@ public class Health : NetworkBehaviour {
         if (currentHealth >= maxHealth)
             currentHealth = maxHealth;
         
+        if (currentHealth > 0 && WasLastHealthZero){
+                WasLastHealthZero = false;
+                GetComponent<Player>().Undead();
+            
+        }
+        if(currentHealth == 0){
+            WasLastHealthZero = true;
+            if (gameObject.tag == "Player")
+            {
+                GetComponent<Player>().Dead();
+            }
+            if(gameObject.tag == "Sphere")
+            {
+                GetComponent<Spheres>().Dead();
+
+            }
+        }
+
     }
 
     void OnChangeHealth(int currentHealth)
     {
         healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
-        var parentObject = GetComponentInParent<Player>();
-        parentObject.IsFrozen = currentHealth > 0 ? false : true;
+
+       
     }
+
 }

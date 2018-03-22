@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class Player : NetworkBehaviour {
+public class Player : NetworkBehaviour{
     public bool IsFrozen = false;
 
     #region UI Sfuff
@@ -127,6 +127,16 @@ public class Player : NetworkBehaviour {
             CubitsNum++;
         }
     }
-    
 
+    public void Dead()
+    {
+        IsFrozen = true;
+        //freeze
+    }
+
+    public void Undead()
+    {
+        IsFrozen = false;
+        //unfreeze
+    }
 }
