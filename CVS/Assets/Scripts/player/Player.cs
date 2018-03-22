@@ -5,7 +5,6 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class Player : NetworkBehaviour{
-    public bool IsFrozen = false;
 
     #region UI Sfuff
     [SerializeField]
@@ -22,6 +21,10 @@ public class Player : NetworkBehaviour{
     }
 
     #endregion
+
+
+    [SyncVar]
+    public bool IsFrozen = false;
 
     [SerializeField]
     private float tossRange = 5f;

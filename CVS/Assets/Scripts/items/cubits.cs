@@ -9,13 +9,11 @@ public class cubits : NetworkBehaviour, IPickUp{
     public void PickMeUp()
     {
         //do someothing here
-        Debug.Log("Picked up cube!");
         DestroyObject(this.gameObject);
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("HIt :" + collision.gameObject.name);
         var hit = collision.gameObject;
         if (hit.tag == "Player") { 
             var health = hit.GetComponent<Health>();

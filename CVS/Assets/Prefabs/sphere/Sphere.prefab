@@ -28,8 +28,9 @@ GameObject:
   - component: {fileID: 114129715400046350}
   - component: {fileID: 114415374309716748}
   - component: {fileID: 114346286821044716}
-  - component: {fileID: 114485512901645624}
   - component: {fileID: 135006160308005630}
+  - component: {fileID: 114904830533315226}
+  - component: {fileID: 114195266559263496}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Sphere
@@ -184,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 4
-  m_SendInterval: 0.125
+  m_SendInterval: 0
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -236,6 +237,17 @@ MonoBehaviour:
     i15: 238
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114195266559263496
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132278158836942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2809cb9094f127143801cf39e900f5d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114229435525373846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -309,17 +321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75b7b3a6a6095549ab7a633c506984a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114485512901645624
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1132278158836942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0c893d0262015e4e993fbb8b4ddfdb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114869227257951694
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -347,6 +348,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114904830533315226
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1132278158836942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2da5ee998e2fe488a552cd04493b6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myTransform: {fileID: 4115860869221832}
+  lerpRate: 15
 --- !u!135 &135006160308005630
 SphereCollider:
   m_ObjectHideFlags: 1

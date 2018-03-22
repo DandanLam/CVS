@@ -396,10 +396,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc1fb8dcd08e00f469bebca0a27f535a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsFrozen: 0
   myCubitsNumberText: {fileID: 114318398223138020}
   numPlayerText: {fileID: 114052919424926978}
   numSpheresText: {fileID: 0}
+  IsFrozen: 0
   tossRange: 10
   distancefromPlayer: 1.1
   cubitsNum: 0

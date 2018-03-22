@@ -36,17 +36,15 @@ public class SyncPlayerPosition : NetworkBehaviour {
             myTransform.rotation = Quaternion.Lerp(myTransform.rotation, syncRot, Time.deltaTime * lerpRate);
         }
     }
-
-    [Command]
+    
     void CmdProvidePositionToServer(Vector3 pos, Quaternion rot)
     {
         syncPos = pos;
         syncRot = rot;
     }
-
-    [ClientCallback]
+    
     void TransmitPosition(){
-        if (isLocalPlayer) { 
+        if (isServer) { 
             CmdProvidePositionToServer(myTransform.position, myTransform.rotation);
         }
     }
