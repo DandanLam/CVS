@@ -35,7 +35,7 @@ public class Health : NetworkBehaviour {
         if (currentHealth >= maxHealth)
             currentHealth = maxHealth;
 
-        if (amount > 0)
+        if (hurtSound != null amount > 0)
             AudioSource.PlayClipAtPoint(hurtSound, new Vector3(gameObject.transform.position.x,
                                                                gameObject.transform.position.y + 10,
                                                                gameObject.transform.position.z));
