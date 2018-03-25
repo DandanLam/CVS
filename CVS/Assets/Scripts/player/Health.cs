@@ -51,12 +51,12 @@ public class Health : NetworkBehaviour {
                                                                    gameObject.transform.position.y + 10,
                                                                    gameObject.transform.position.z));
             WasLastHealthZero = true;
-            if (gameObject.tag == "Player")
+            if (gameObject.tag == StringConstants.playerTag)
             {
                 GetComponent<Player>().Dead();
 
             }
-            if(gameObject.tag == "Sphere")
+            if(gameObject.tag == StringConstants.sphereTag)
             {
                 GetComponent<Spheres>().Dead();
 

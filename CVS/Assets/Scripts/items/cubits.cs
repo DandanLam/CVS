@@ -9,7 +9,7 @@ public class cubits : NetworkBehaviour, IPickUp{
 
     private void Awake()
     {
-        if (shotSound != null && gameObject.tag == "throwable")
+        if (shotSound != null && gameObject.tag == StringConstants.thorwableTag)
             AudioSource.PlayClipAtPoint(shotSound, new Vector3(gameObject.transform.position.x,
                                                                gameObject.transform.position.y + 10,
                                                                gameObject.transform.position.z));
@@ -24,13 +24,13 @@ public class cubits : NetworkBehaviour, IPickUp{
     void OnCollisionEnter(Collision collision)
     {
         var hit = collision.gameObject;
-        if (hit.tag == "Player") { 
+        if (hit.tag == StringConstants.playerTag) { 
             var health = hit.GetComponent<Health>();
             if (health != null)
             {
                 health.TakeDamage(-(Health.maxHealth / 4));
             }
-        }else if(hit.tag == "Sphere")
+        }else if(hit.tag == StringConstants.sphereTag)
         {
             var health = hit.GetComponent<Health>();
             if(health!= null)

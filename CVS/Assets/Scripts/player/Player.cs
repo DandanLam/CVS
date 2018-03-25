@@ -108,7 +108,7 @@ public class Player : NetworkBehaviour{
     //Touch another object with .tag name
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "pickable")
+        if(other.tag == StringConstants.pickableTag)
         {
             other.GetComponent<IPickUp>().PickMeUp();
             CubitsNum++;

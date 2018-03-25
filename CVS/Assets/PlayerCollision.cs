@@ -12,7 +12,7 @@ public class PlayerCollision : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         var hit = other.gameObject;
-        if (hit.tag == "Player")
+        if (hit.tag == StringConstants.playerTag)
         {
             var health = hit.GetComponent<Health>();
             if (health != null)
