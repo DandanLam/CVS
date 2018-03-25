@@ -508,6 +508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8645177d70923bf46ac37f47e487a609, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hurtSound: {fileID: 8300000, guid: 04919e6604943bc479e05d2f50aed1b7, type: 3}
   currentHealth: 100
   healthBar: {fileID: 224971723362545058}
 --- !u!114 &114304606305049470
