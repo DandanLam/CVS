@@ -39,7 +39,7 @@ public class PlayerHUD : NetworkBehaviour {
 
     int checkSphereCount()
     {
-        return GameObject.FindGameObjectsWithTag("Sphere").Length;
+        return GameObject.FindGameObjectsWithTag(StringConstants.sphereTag).Length;
     }
     void OnChangeNumSpheres(int numOfSpheres)
     {

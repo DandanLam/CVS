@@ -29,6 +29,9 @@ public class PlayerTracking : MonoBehaviour {
             Vector3 playerPosition = playerTransform.position;
             GetComponent<NavMeshAgent>().SetDestination(playerPosition);
         }
+        else
+            GetComponent<NavMeshAgent>().destination = gameObject.transform.position;
+
     }
 
     int CalcPlayerToFollow(int activePlayers)

@@ -28,14 +28,14 @@ public class cubits : NetworkBehaviour, IPickUp{
             var health = hit.GetComponent<Health>();
             if (health != null)
             {
-                health.TakeDamage(-(Health.maxHealth / 4));
+                health.TakeDamage(-(Health.maxHealth / 2));
             }
         }else if(hit.tag == StringConstants.sphereTag)
         {
             var health = hit.GetComponent<Health>();
             if(health!= null)
             {
-                health.TakeDamage(30);
+                health.TakeDamage((Health.maxHealth / 4));
             }
         }
         NetworkServer.Destroy(gameObject);
