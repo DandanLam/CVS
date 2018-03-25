@@ -509,6 +509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hurtSound: {fileID: 8300000, guid: 04919e6604943bc479e05d2f50aed1b7, type: 3}
+  deadSound: {fileID: 8300000, guid: 2b76c7844e5980549ad767829cb231d1, type: 3}
   currentHealth: 100
   healthBar: {fileID: 224971723362545058}
 --- !u!114 &114304606305049470
@@ -559,7 +560,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 20
 --- !u!114 &114347976244195154
 MonoBehaviour:
   m_ObjectHideFlags: 1

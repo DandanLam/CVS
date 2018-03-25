@@ -8,6 +8,7 @@ public class Health : NetworkBehaviour {
 
     public const int maxHealth = 100;
     public AudioClip hurtSound;
+    public AudioClip deadSound;
 
     [SyncVar(hook = "OnChangeHealth")]
     public int currentHealth = maxHealth;
@@ -45,10 +46,15 @@ public class Health : NetworkBehaviour {
                 GetComponent<Player>().Undead();
         }
         if(currentHealth == 0){
+            if (deadSound != null && !WasLastHealthZero)
+                AudioSource.PlayClipAtPoint(deadSound, new Vector3(gameObject.transform.position.x,
+                                                                   gameObject.transform.position.y + 10,
+                                                                   gameObject.transform.position.z));
             WasLastHealthZero = true;
             if (gameObject.tag == "Player")
             {
                 GetComponent<Player>().Dead();
+
             }
             if(gameObject.tag == "Sphere")
             {

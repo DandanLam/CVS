@@ -5,7 +5,16 @@ using UnityEngine.Networking;
 
 public class cubits : NetworkBehaviour, IPickUp{
 
-	
+    public AudioClip shotSound;
+
+    private void Awake()
+    {
+        if (shotSound != null && gameObject.tag == "throwable")
+            AudioSource.PlayClipAtPoint(shotSound, new Vector3(gameObject.transform.position.x,
+                                                               gameObject.transform.position.y + 10,
+                                                               gameObject.transform.position.z));
+    }
+
     public void PickMeUp()
     {
         //do someothing here
