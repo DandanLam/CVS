@@ -6,13 +6,13 @@ using UnityEngine.Networking;
 public class cubits : NetworkBehaviour, IPickUp{
 
     public AudioClip shotSound;
-
+    
     private void Awake()
     {
         if (shotSound != null && gameObject.tag == StringConstants.thorwableTag)
-            AudioSource.PlayClipAtPoint(shotSound, new Vector3(gameObject.transform.position.x,
-                                                               gameObject.transform.position.y + 10,
-                                                               gameObject.transform.position.z));
+        {
+            GetComponent<AudioSource>().PlayOneShot(shotSound, 1f);
+        }
     }
 
     public void PickMeUp()

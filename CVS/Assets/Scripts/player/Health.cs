@@ -9,11 +9,15 @@ public class Health : NetworkBehaviour {
     public const int maxHealth = 100;
     public AudioClip hurtSound;
     public AudioClip deadSound;
+    private AudioSource audioSource;
 
     [SyncVar(hook = "OnChangeHealth")]
     public int currentHealth = maxHealth;
 
-    //public bool IsDead = { get { return currentHealth <= 0 ? true : false; } }
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     bool WasLastHealthZero = false;
     public RectTransform healthBar;
@@ -37,19 +41,14 @@ public class Health : NetworkBehaviour {
             currentHealth = maxHealth;
 
         if (hurtSound != null && amount > 0)
-            AudioSource.PlayClipAtPoint(hurtSound, new Vector3(gameObject.transform.position.x,
-                                                               gameObject.transform.position.y + 10,
-                                                               gameObject.transform.position.z));
-
+            audioSource.PlayOneShot(hurtSound);
         if (currentHealth > 0 && WasLastHealthZero){
                 WasLastHealthZero = false;
                 GetComponent<Player>().Undead();
         }
         if(currentHealth == 0){
             if (deadSound != null && !WasLastHealthZero)
-                AudioSource.PlayClipAtPoint(deadSound, new Vector3(gameObject.transform.position.x,
-                                                                   gameObject.transform.position.y + 10,
-                                                                   gameObject.transform.position.z));
+                audioSource.PlayOneShot(deadSound);
             WasLastHealthZero = true;
             if (gameObject.tag == StringConstants.playerTag)
             {
