@@ -20,7 +20,7 @@ public class SpawnObjects : NetworkBehaviour {
         if (!isServer)
             return;
         InitializeVariables();
-        SpawnPrefabs();
+        SpawnPrefabs(spawnByNumber);
 	}
 	
 	// Update is called once per frame
@@ -36,11 +36,8 @@ public class SpawnObjects : NetworkBehaviour {
 
         if (timer > respawnTimerInSec) {
             int numberOfPrefabsToRespawn = GetNumberOfPrefabsToRespawn();
-            
-            for (int i = 0; i < numberOfPrefabsToRespawn; i++) {
-                SpawnPrefab();
-            }
-            
+            SpawnPrefabs(numberOfPrefabsToRespawn);
+
             timer = 0f;
 
             Debug.Log("Respawning " + numberOfPrefabsToRespawn + " " + prefab.name);
@@ -77,11 +74,9 @@ public class SpawnObjects : NetworkBehaviour {
         NetworkServer.Spawn(instance);
     }
 
-    public void SpawnPrefabs() {
-        for (int i = 1; i < spawnByNumber; i++)
-        {
+    public void SpawnPrefabs(int spawnCount) {
+        for (int i = 0; i < spawnCount; i++)
             SpawnPrefab();
-        }
     }
 
     /*
