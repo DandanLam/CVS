@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 public class Health : NetworkBehaviour {
 
     public const int maxHealth = 100;
+    public AudioClip hurtSound;
 
     [SyncVar(hook = "OnChangeHealth")]
     public int currentHealth = maxHealth;
@@ -33,11 +34,15 @@ public class Health : NetworkBehaviour {
         currentHealth = amount > currentHealth ? 0 : currentHealth - amount;
         if (currentHealth >= maxHealth)
             currentHealth = maxHealth;
-        
+
+        if (amount > 0)
+            AudioSource.PlayClipAtPoint(hurtSound, new Vector3(gameObject.transform.position.x,
+                                                               gameObject.transform.position.y + 10,
+                                                               gameObject.transform.position.z));
+
         if (currentHealth > 0 && WasLastHealthZero){
                 WasLastHealthZero = false;
                 GetComponent<Player>().Undead();
-            
         }
         if(currentHealth == 0){
             WasLastHealthZero = true;
