@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 114398374462805472}
   - component: {fileID: 114228164998217860}
   - component: {fileID: 114898373925450320}
+  - component: {fileID: 114518858095920488}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -396,13 +397,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc1fb8dcd08e00f469bebca0a27f535a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myCubitsNumberText: {fileID: 114318398223138020}
-  numPlayerText: {fileID: 114052919424926978}
-  numSpheresText: {fileID: 0}
   IsFrozen: 0
   tossRange: 10
   distancefromPlayer: 1.1
-  cubitsNum: 0
+  cubitsNum: 20
   throwableCubePrefab: {fileID: 1589139563933404, guid: 947f224cdf991684ca286362bba6ad11,
     type: 2}
   clientOnlyObjects: {fileID: 1136618899042260}
@@ -601,6 +599,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myTransform: {fileID: 4218220845598090}
   lerpRate: 15
+--- !u!114 &114518858095920488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1566425171029664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f0a6785f04fb964a9ed611b4ab263d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myCubitsNumberText: {fileID: 114318398223138020}
+  numPlayerText: {fileID: 114052919424926978}
+  numSpheresText: {fileID: 114840397569328118}
+  numberPlayers: 0
+  numberSpheres: 0
 --- !u!114 &114578980360628822
 MonoBehaviour:
   m_ObjectHideFlags: 1

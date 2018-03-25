@@ -19,7 +19,6 @@ public class SpawnObjects : NetworkBehaviour {
     public override void OnStartServer() {
         if (!isServer)
             return;
-
         InitializeVariables();
         SpawnPrefabs();
 	}

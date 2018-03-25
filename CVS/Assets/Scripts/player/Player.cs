@@ -6,22 +6,7 @@ using UnityEngine.UI;
 
 public class Player : NetworkBehaviour{
 
-    #region UI Sfuff
-    [SerializeField]
-    private Text myCubitsNumberText;
-    [SerializeField]
-    private Text numPlayerText;
-    [SerializeField]
-    private Text numSpheresText;
-
-    void UpdateUI()
-    {
-        numPlayerText.text = NetworkServer.connections.Count.ToString();
-        //Debug.Log("Number of connected Players : " + NetworkServer.connections.Count.ToString());
-    }
-
-    #endregion
-
+   
 
     [SyncVar]
     public bool IsFrozen = false;
@@ -40,7 +25,7 @@ public class Player : NetworkBehaviour{
         set
         {
             cubitsNum = value;
-            myCubitsNumberText.text = value+"";
+            GetComponent<PlayerHUD>().myCubitsNumberText.text = value+"";
 
         }
     }
@@ -68,8 +53,7 @@ public class Player : NetworkBehaviour{
         if (!isLocalPlayer) { 
             return;
         }
-
-        UpdateUI();
+        
         if (IsFrozen)
             return;
 

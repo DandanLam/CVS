@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.AI;
 
 public class SyncPlayerPosition : NetworkBehaviour {
     [SyncVar]
@@ -18,7 +19,6 @@ public class SyncPlayerPosition : NetworkBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
 	}
 
 
