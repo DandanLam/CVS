@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class MusicMixer : MonoBehaviour {
+public class CombatMusicControl : MonoBehaviour {
 
     public AudioMixerSnapshot outOfCombat;
     public AudioMixerSnapshot inCombat;

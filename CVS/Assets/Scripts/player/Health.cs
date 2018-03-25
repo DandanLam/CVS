@@ -50,12 +50,12 @@ public class Health : NetworkBehaviour {
             if (deadSound != null && !WasLastHealthZero)
                 audioSource.PlayOneShot(deadSound);
             WasLastHealthZero = true;
-            if (gameObject.tag == StringConstants.playerTag)
+            if (gameObject.CompareTag(StringConstants.playerTag))
             {
                 GetComponent<Player>().Dead();
 
             }
-            if(gameObject.tag == StringConstants.sphereTag)
+            if(gameObject.CompareTag(StringConstants.sphereTag))
             {
                 GetComponent<Spheres>().Dead();
 
