@@ -20,7 +20,8 @@ public class PlayerTracking : MonoBehaviour {
 
         var activePlayers = GetActivePlayerGameObjects();
         if (activePlayers.Count == 0)
-            return;
+            GetComponent<NavMeshAgent>().SetDestination(gameObject.transform.position);
+
         var playerGameObject = activePlayers[CalcPlayerToFollow(activePlayers.Count)];
         if (playerGameObject != null)
         {
@@ -29,9 +30,6 @@ public class PlayerTracking : MonoBehaviour {
             Vector3 playerPosition = playerTransform.position;
             GetComponent<NavMeshAgent>().SetDestination(playerPosition);
         }
-        else
-            GetComponent<NavMeshAgent>().destination = gameObject.transform.position;
-
     }
 
     int CalcPlayerToFollow(int activePlayers)
