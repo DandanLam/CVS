@@ -67,7 +67,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4420450716072120}
   - component: {fileID: 135256500433381672}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ProximityDetection
   m_TagString: EnemyProximity
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:

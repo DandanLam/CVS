@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 224686950716284956}
   - component: {fileID: 222151375653898028}
   - component: {fileID: 114927922937302626}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: playerAndSphereText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 224829083682719590}
   - component: {fileID: 222190218234205468}
   - component: {fileID: 114840397569328118}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SphereNumberText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 224350812362172804}
   - component: {fileID: 222400446084688034}
   - component: {fileID: 114052919424926978}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PlayerNumberText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 224079745131394954}
   - component: {fileID: 222034596128260356}
   - component: {fileID: 114671638475475194}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: playerAndSphereCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967039
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -455,7 +455,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -481,8 +481,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsFrozen: 0
   tossRange: 10
-  distancefromPlayer: 1.1
-  cubitsNum: 20
+  distancefromPlayer: 1.5
+  cubitsNum: 10
   throwableCubePrefab: {fileID: 1589139563933404, guid: 947f224cdf991684ca286362bba6ad11,
     type: 2}
   clientOnlyObjects: {fileID: 1136618899042260}

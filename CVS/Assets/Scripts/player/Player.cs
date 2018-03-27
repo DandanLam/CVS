@@ -79,13 +79,16 @@ public class Player : NetworkBehaviour{
                 return;
             }
             CubitsNum--;
+
             
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
+                Debug.LogError(hit.point);
                 CmdThrowCube(hit.point);
             }
+            
         }
     }
 
@@ -99,7 +102,7 @@ public class Player : NetworkBehaviour{
         var leveledSpawnPoint = transform.position + targetVector.normalized * distancefromPlayer;
         GameObject cubeBall = Instantiate(throwableCubePrefab, leveledSpawnPoint, transform.rotation) as GameObject;
 
-        cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange; //cubeBall.transform.forward * 5;
+        cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange;
         NetworkServer.Spawn(cubeBall);
 
     }

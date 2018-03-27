@@ -38,7 +38,7 @@ public class Health : NetworkBehaviour {
         
         currentHealth = amount > currentHealth ? 0 : currentHealth - amount;
         if (currentHealth >= maxHealth)
-            currentHealth = maxHealth;
+            //currentHealth = maxHealth;
 
         if (hurtSound != null && amount > 0)
             audioSource.PlayOneShot(hurtSound);
