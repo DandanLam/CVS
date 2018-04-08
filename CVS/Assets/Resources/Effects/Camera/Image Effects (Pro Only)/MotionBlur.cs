@@ -18,11 +18,7 @@ public class MotionBlur : ImageEffectBase
 	
 	override protected void Start()
 	{
-		if(!SystemInfo.supportsRenderTextures)
-		{
-			enabled = false;
-			return;
-		}
+		
 		base.Start();
 	}
 	
