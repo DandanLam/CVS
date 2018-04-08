@@ -34,6 +34,6 @@ sysinfo.txt
 *.unitypackage
 CVS/.vs/CVS/v15/Server/sqlite3/storage.ide
 *.ide
-CVS/Library/
-CVS/Temp
+CVS/Library/*
+CVS/Temp/*
 
