@@ -22,11 +22,11 @@ GameObject:
   - component: {fileID: 33011871673252034}
   - component: {fileID: 65763883506993776}
   - component: {fileID: 23131774517164254}
-  - component: {fileID: 114560086111918084}
   - component: {fileID: 54709518220501488}
   - component: {fileID: 114085274744837206}
   - component: {fileID: 114593254578797350}
   - component: {fileID: 82327599956581952}
+  - component: {fileID: 114871283579497162}
   m_Layer: 0
   m_Name: cubits (throwable)
   m_TagString: throwable
@@ -227,18 +227,6 @@ MonoBehaviour:
     i15: 17
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114560086111918084
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1589139563933404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5100067f1f36c04b88436a72c0142bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shotSound: {fileID: 8300000, guid: 82f8cc17ad0be94409e35146a252dc10, type: 3}
 --- !u!114 &114593254578797350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -260,3 +248,15 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114871283579497162
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1589139563933404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5100067f1f36c04b88436a72c0142bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shotSound: {fileID: 8300000, guid: 82f8cc17ad0be94409e35146a252dc10, type: 3}

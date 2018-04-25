@@ -38,9 +38,9 @@ GameObject:
   - component: {fileID: 33011871673252034}
   - component: {fileID: 65763883506993776}
   - component: {fileID: 23131774517164254}
-  - component: {fileID: 114560086111918084}
   - component: {fileID: 114034549469564286}
   - component: {fileID: 114328507507974256}
+  - component: {fileID: 114192498357193728}
   m_Layer: 0
   m_Name: cubits (collectable)
   m_TagString: pickable
@@ -196,6 +196,17 @@ MonoBehaviour:
     i15: 159
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114192498357193728
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1589139563933404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e972ae001a84673468e53ef926ede91b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114328507507974256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -207,15 +218,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887b8470a762fe74aa2413c1c4a5dc55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114560086111918084
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1589139563933404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5100067f1f36c04b88436a72c0142bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shotSound: {fileID: 0}

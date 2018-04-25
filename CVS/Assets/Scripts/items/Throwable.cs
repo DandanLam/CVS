@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class cubits : NetworkBehaviour, IPickUp{
+public class Throwable : NetworkBehaviour{
 
     public AudioClip shotSound;
     Rigidbody myRigidbody;
@@ -25,12 +25,6 @@ public class cubits : NetworkBehaviour, IPickUp{
         {
             GetComponent<AudioSource>().PlayOneShot(shotSound, 1f);
         }
-    }
-
-    public void PickMeUp()
-    {
-        //do someothing here
-        DestroyObject(this.gameObject);
     }
 
     void OnCollisionEnter(Collision collision)
