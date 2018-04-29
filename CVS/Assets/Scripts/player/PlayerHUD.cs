@@ -19,25 +19,28 @@ public class PlayerHUD : NetworkBehaviour {
     [SyncVar(hook = "OnChangeNumSpheres")]
     public int numberSpheres;
 
-    float updateSecond = 2.0f;
+    float updateSecond = 1.0f;
     float counter = 0;
     // Update is called once per frame
     void FixedUpdate ()
     {
-        if (isServer)
+        if (isLocalPlayer)
         {
-            numberPlayers = NetworkServer.connections.Count;
             counter += Time.deltaTime;
             if(counter >= updateSecond)
             {
                 counter = 0;
-                OnChangeNumSpheres(checkSphereCount());
+                OnChangeNumSpheres(CheckSphereCount());
+                OnChangeNumPlayers(CheckPlayerCount());
             }
         }
-
     }
 
-    int checkSphereCount()
+    int CheckPlayerCount()
+    {
+        return GameObject.FindGameObjectsWithTag(StringConstants.playerTag).Length;
+    }
+    int CheckSphereCount()
     {
         return GameObject.FindGameObjectsWithTag(StringConstants.sphereTag).Length;
     }
