@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -8,15 +9,19 @@ public class Throwable : NetworkBehaviour{
     public AudioClip shotSound;
     Rigidbody myRigidbody;
     Vector3 oldVel;
+    DateTimeOffset spawnTime;
 
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
+        spawnTime = DateTimeOffset.Now;
     }
 
     void FixedUpdate()
     {
         oldVel = myRigidbody.velocity;
+        if (spawnTime.AddSeconds(5) <= DateTimeOffset.Now)
+            NetworkServer.Destroy(gameObject);
     }
 
     private void Awake()
@@ -56,8 +61,7 @@ public class Throwable : NetworkBehaviour{
             myRigidbody.velocity = Vector3.Reflect(oldVel, cp.normal);
 
             // bumper effect to speed up ball
-            //myRigidbody.velocity += cp.normal * 2.0f;
+            myRigidbody.velocity += cp.normal * 2.0f;
         }
-        
     }
 }
