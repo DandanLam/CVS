@@ -88,7 +88,6 @@ public class Player : NetworkBehaviour{
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.LogError(hit.point);
                 CmdThrowCube(hit.point);
             }
             

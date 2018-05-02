@@ -98,9 +98,16 @@ public class SpawnObjects : NetworkBehaviour {
     }
 
     public void SpawnPrefab()
-    {
-        Vector3 newPos = planeCenterPosition + new Vector3(Random.Range(-planeScale.x * planeScale.x, planeScale.x * planeScale.x), 0, Random.Range(-planeScale.z * planeScale.z, planeScale.z * planeScale.z));
-        GameObject instance = Instantiate(prefab, newPos, Quaternion.identity) as GameObject;
+    {        
+        Vector3 newPos = planeCenterPosition + new Vector3(Random.Range(-planeScale.x * planeScale.x, planeScale.x * planeScale.x), 3, Random.Range(-planeScale.z * planeScale.z, planeScale.z * planeScale.z));
+        Vector3 meshPoint = newPos;
+        NavMeshHit hit;
+        if(NavMesh.SamplePosition(newPos, out hit, 5.0f, NavMesh.AllAreas))
+        {
+            meshPoint = hit.position;
+        }
+
+        GameObject instance = Instantiate(prefab, meshPoint, Quaternion.identity) as GameObject;
         NetworkServer.Spawn(instance);
     }
 
