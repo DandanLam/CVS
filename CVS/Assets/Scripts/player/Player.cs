@@ -75,9 +75,9 @@ public class Player : NetworkBehaviour{
 
         //left click do something here, 
         //TODO will change when VR implementation
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
-            
+
             if (CubitsNum <= 0)
             {
                 return;
