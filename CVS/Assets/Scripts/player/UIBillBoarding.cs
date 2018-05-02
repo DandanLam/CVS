@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HPBarBillboarding : MonoBehaviour {
+public class UIBillBoarding : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {

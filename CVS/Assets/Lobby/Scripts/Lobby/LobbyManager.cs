@@ -329,7 +329,9 @@ namespace Prototype.NetworkLobby
             //This hook allows you to apply state data from the lobby-player to the game-player
             //just subclass "LobbyHook" and add it to the lobby object.
 
+            Debug.Log("Is lobby Hook exist?: " + _lobbyHooks);
             if (_lobbyHooks)
+                Debug.Log("IT exist!");
                 _lobbyHooks.OnLobbyServerSceneLoadedForPlayer(this, lobbyPlayer, gamePlayer);
 
             return true;

@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class Player : NetworkBehaviour{
 
-   
+
+    [SyncVar(hook = "OnChangeName")]
+    public string name = "";
 
     [SyncVar]
     public bool IsFrozen = false;
@@ -37,7 +39,9 @@ public class Player : NetworkBehaviour{
 
     [SerializeField]
     private GameObject clientOnlyObjects;
-    
+
+    [SerializeField]
+    private Text playerName;
 
 	void Start () {
         if (!isLocalPlayer)
@@ -79,8 +83,7 @@ public class Player : NetworkBehaviour{
                 return;
             }
             CubitsNum--;
-
-            
+                        
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -91,11 +94,14 @@ public class Player : NetworkBehaviour{
             
         }
     }
+    void OnChangeName(string name)
+    {
+        playerName.text = name;
+    }
 
     [Command]
     void CmdThrowCube(Vector3 location)
     {
-
         Vector3 leveledLocation = new Vector3(location.x, transform.position.y, location.z);
         Vector3 targetVector = leveledLocation - transform.position;
 
@@ -104,7 +110,6 @@ public class Player : NetworkBehaviour{
 
         cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange;
         NetworkServer.Spawn(cubeBall);
-
     }
 
 

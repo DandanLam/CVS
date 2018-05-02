@@ -26,6 +26,7 @@ public class PlayerHUD : NetworkBehaviour {
     {
         if (isLocalPlayer)
         {
+
             counter += Time.deltaTime;
             if(counter >= updateSecond)
             {
