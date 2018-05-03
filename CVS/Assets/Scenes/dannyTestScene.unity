@@ -704,6 +704,11 @@ Prefab:
       propertyPath: spawnByNumber
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 114998260904250020, guid: 4d5c5b4ee4faab842b805ad5e2cef9ae,
+        type: 2}
+      propertyPath: spawnByNumber
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4d5c5b4ee4faab842b805ad5e2cef9ae, type: 2}
   m_IsPrefabParent: 0
