@@ -8,9 +8,10 @@ public class SpawnObjects : NetworkBehaviour {
 
     public GameObject prefab;
 
-    public int spawnByNumber;
     public bool respawnEnabled;
     public float respawnTimerInSec;
+    public bool spawnAtCornersOfPlane;
+    public int spawnByNumber;
 
     private Vector3 planeScale;
     private Vector3 planeCenterPosition;
@@ -18,46 +19,22 @@ public class SpawnObjects : NetworkBehaviour {
     private float range = 3f;
 
     // Use this for initialization
-    public override void OnStartServer() {
+    public override void OnStartServer()
+    {
         if (!isServer)
             return;
         InitializeVariables();
         SpawnPrefabs(spawnByNumber);
-
-        Vector3 point;
-
-        if (RandomPoint(transform.position, range, out point))
-        {
-            Debug.DrawRay(point, Vector3.up, Color.red, 1.0f);
-        }
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         RespawnPrefabs();
 	}
 
-    bool RandomPoint(Vector3 center, float range, out Vector3 result)
+    public void RespawnPrefabs()
     {
-        for (int i = 0; i < 30; i++)
-        {
-            Vector3 randomPoint = center + Random.insideUnitSphere * range;
-            NavMeshHit hit;
-
-            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
-            {
-                result = hit.position;
-
-                return true;
-            }
-        }
-
-        result = Vector3.zero;
-
-        return false;
-    }
-
-    public void RespawnPrefabs() {
         if (!respawnEnabled)
             return;
 
@@ -69,12 +46,11 @@ public class SpawnObjects : NetworkBehaviour {
             SpawnPrefabs(numberOfPrefabsToRespawn);
             
             timer = 0f;
-
-            Debug.Log("Respawning " + numberOfPrefabsToRespawn + " " + prefab.name);
         }
     }
 
-    public int GetNumberOfPrefabsToRespawn() {
+    public int GetNumberOfPrefabsToRespawn()
+    {
         int existingGameObjectsCount = 0;
 
         foreach (GameObject go in GameObject.FindGameObjectsWithTag("pickable")) {
@@ -86,7 +62,8 @@ public class SpawnObjects : NetworkBehaviour {
         return spawnByNumber - existingGameObjectsCount;
     }
 
-    public void InitializeVariables() {
+    public void InitializeVariables()
+    {
         GameObject plane = GameObject.Find("Plane");
 
         Transform planeTransform = plane.transform;
@@ -97,23 +74,48 @@ public class SpawnObjects : NetworkBehaviour {
         timer = 0f;
     }
 
-    public void SpawnPrefab()
-    {        
-        Vector3 newPos = planeCenterPosition + new Vector3(Random.Range(-planeScale.x * planeScale.x, planeScale.x * planeScale.x), 3, Random.Range(-planeScale.z * planeScale.z, planeScale.z * planeScale.z));
-        Vector3 meshPoint = newPos;
-        NavMeshHit hit;
-        if(NavMesh.SamplePosition(newPos, out hit, 5.0f, NavMesh.AllAreas))
+    public void SpawnPrefabs(int spawnCount)
+    {
+        for (int i = 0; i < spawnCount; i++)
         {
-            meshPoint = hit.position;
+            Vector3 positionOnPlane = getRandomPositionOnPlane();
+            GameObject instance = Instantiate(prefab, TransferToPositionOnNavMesh(positionOnPlane), Quaternion.identity) as GameObject;
+            NetworkServer.Spawn(instance);
         }
-
-        GameObject instance = Instantiate(prefab, meshPoint, Quaternion.identity) as GameObject;
-        NetworkServer.Spawn(instance);
+        
     }
 
-    public void SpawnPrefabs(int spawnCount) {
-        for (int i = 0; i < spawnCount; i++)
-            SpawnPrefab();
+    public Vector3 getRandomPositionOnPlane()
+    {
+        int y = 3;
+
+        Vector3 newPosition = planeCenterPosition + new Vector3(Random.Range(-planeScale.x * planeScale.x, planeScale.x * planeScale.x), y, Random.Range(-planeScale.z * planeScale.z, planeScale.z * planeScale.z));
+
+        if (spawnAtCornersOfPlane)
+        {
+            ArrayList cornerPositions = new ArrayList();
+
+            cornerPositions.Add(new Vector3((-planeScale.x * planeScale.x), y, (-planeScale.z * planeScale.z)));
+            cornerPositions.Add(new Vector3((-planeScale.x * planeScale.x), y, (planeScale.z * planeScale.z)));
+            cornerPositions.Add(new Vector3((planeScale.x * planeScale.x), y, (-planeScale.z * planeScale.z)));
+            cornerPositions.Add(new Vector3((planeScale.x * planeScale.x), y, (planeScale.z * planeScale.z)));
+
+            newPosition = (Vector3)cornerPositions[Random.Range(0, 4)];
+        }
+
+        return newPosition;
+    }
+
+    public Vector3 TransferToPositionOnNavMesh(Vector3 position)
+    {
+        NavMeshHit hit;
+
+        if (NavMesh.SamplePosition(position, out hit, 5.0f, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+
+        return position;
     }
 
     /*
