@@ -44,7 +44,7 @@ public class Player : NetworkBehaviour{
     private Text playerNameText;
 
 	void Start () {
-        Debug.LogError("HI MY Name is : " + name);
+        playerNameText.text = name;
         if (!isLocalPlayer)
         {
             clientOnlyObjects.SetActive(false);
