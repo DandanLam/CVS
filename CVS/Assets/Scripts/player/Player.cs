@@ -41,9 +41,10 @@ public class Player : NetworkBehaviour{
     private GameObject clientOnlyObjects;
 
     [SerializeField]
-    private Text playerName;
+    private Text playerNameText;
 
 	void Start () {
+        Debug.LogError("HI MY Name is : " + name);
         if (!isLocalPlayer)
         {
             clientOnlyObjects.SetActive(false);
@@ -77,7 +78,6 @@ public class Player : NetworkBehaviour{
         //TODO will change when VR implementation
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
-
             if (CubitsNum <= 0)
             {
                 return;
@@ -89,13 +89,12 @@ public class Player : NetworkBehaviour{
             if (Physics.Raycast(ray, out hit))
             {
                 CmdThrowCube(hit.point);
-            }
-            
+            }            
         }
     }
     void OnChangeName(string name)
     {
-        playerName.text = name;
+        playerNameText.text = name;
     }
 
     [Command]

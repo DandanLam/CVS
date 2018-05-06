@@ -645,7 +645,7 @@ MonoBehaviour:
   throwableCubePrefab: {fileID: 1589139563933404, guid: 947f224cdf991684ca286362bba6ad11,
     type: 2}
   clientOnlyObjects: {fileID: 1136618899042260}
-  playerName: {fileID: 114095241720325018}
+  playerNameText: {fileID: 114095241720325018}
 --- !u!114 &114007713226911728
 MonoBehaviour:
   m_ObjectHideFlags: 1
