@@ -17,11 +17,6 @@ public class SyncPlayerPosition : NetworkBehaviour {
     float lerpRate = 15;
 
 
-    // Update is called once per frame
-    void Update () {
-	}
-
-
     private void FixedUpdate()
     {
         TransmitPosition();
@@ -37,6 +32,7 @@ public class SyncPlayerPosition : NetworkBehaviour {
         }
     }
     
+    [Command]
     void CmdProvidePositionToServer(Vector3 pos, Quaternion rot)
     {
         syncPos = pos;
@@ -48,6 +44,4 @@ public class SyncPlayerPosition : NetworkBehaviour {
             CmdProvidePositionToServer(myTransform.position, myTransform.rotation);
         }
     }
-
-
 }

@@ -34,34 +34,44 @@ public class Throwable : NetworkBehaviour{
 
     void OnCollisionEnter(Collision collision)
     {
-        var hit = collision.gameObject;
-        if (hit.tag == StringConstants.playerTag) { 
-            var health = hit.GetComponent<Health>();
-            if (health != null)
+        
+            var hit = collision.gameObject;
+            if (hit.tag == StringConstants.playerTag)
             {
-                health.TakeDamage(-(Health.maxHealth / 2));
+                if (isServer)
+                {
+                    var health = hit.GetComponent<Health>();
+                    if (health != null)
+                    {
+                        health.TakeDamage(-(Health.maxHealth / 2));
+                    }
+                    NetworkServer.Destroy(gameObject);
+                }
             }
-            NetworkServer.Destroy(gameObject);
-        }
-        else if(hit.tag == StringConstants.sphereTag)
-        {
-            var health = hit.GetComponent<Health>();
-            if(health!= null)
+            else if (hit.tag == StringConstants.sphereTag)
             {
-                health.TakeDamage((Health.maxHealth / 4));
+                if (isServer)
+                {
+                    var health = hit.GetComponent<Health>();
+                    if (health != null)
+                    {
+                        health.TakeDamage((Health.maxHealth / 4));
+                    }
+                    NetworkServer.Destroy(gameObject);
+                }
             }
-            NetworkServer.Destroy(gameObject);
-        } else
-        {
-            ContactPoint cp = collision.contacts[0];
-            // calculate with addition of normal vector
-            // myRigidbody.velocity = oldVel + cp.normal*2.0f*oldVel.magnitude;
+            else
+            {
+                ContactPoint cp = collision.contacts[0];
+                // calculate with addition of normal vector
+                // myRigidbody.velocity = oldVel + cp.normal*2.0f*oldVel.magnitude;
 
-            // calculate with Vector3.Reflect
-            myRigidbody.velocity = Vector3.Reflect(oldVel, cp.normal);
+                // calculate with Vector3.Reflect
+                myRigidbody.velocity = Vector3.Reflect(oldVel, cp.normal);
 
-            // bumper effect to speed up ball
-            myRigidbody.velocity += cp.normal * 2.0f;
+                // bumper effect to speed up ball
+                myRigidbody.velocity += cp.normal * 2.0f;
+            }
         }
-    }
+    
 }

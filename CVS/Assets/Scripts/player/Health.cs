@@ -25,48 +25,77 @@ public class Health : NetworkBehaviour {
     void Start () {
         OnChangeHealth(currentHealth);
     }
-	
-	// Update is called once per frame
-	void FixedUpdate () {
 
-    }
 
     public void TakeDamage(int amount)
     {
-        if (!isServer)        
-            return;
-        
+        if (isServer) { 
+            currentHealth = amount > currentHealth ? 0 : currentHealth - amount;
+            if (currentHealth >= maxHealth)
+                currentHealth = maxHealth;
+
+            if (hurtSound != null && amount > 0)
+                audioSource.PlayOneShot(hurtSound);
+            if (currentHealth > 0 && WasLastHealthZero)
+            {
+                WasLastHealthZero = false;
+                GetComponent<Player>().Undead();
+            }
+            if (currentHealth == 0)
+            {
+                if (deadSound != null && !WasLastHealthZero)
+                    audioSource.PlayOneShot(deadSound);
+                WasLastHealthZero = true;
+                if (gameObject.CompareTag(StringConstants.playerTag))
+                {
+                    Debug.Log("calling dead player");
+                    GetComponent<Player>().Dead();
+                }
+                if (gameObject.CompareTag(StringConstants.sphereTag))
+                {
+                    GetComponent<Spheres>().Dead();
+                }
+            }
+        }
+        else
+        {
+            CmdTakeDamage(amount);
+        }
+    }
+    
+    [Command]
+    void CmdTakeDamage(int amount)
+    {
         currentHealth = amount > currentHealth ? 0 : currentHealth - amount;
         if (currentHealth >= maxHealth)
             currentHealth = maxHealth;
 
         if (hurtSound != null && amount > 0)
             audioSource.PlayOneShot(hurtSound);
-        if (currentHealth > 0 && WasLastHealthZero){
-                WasLastHealthZero = false;
-                GetComponent<Player>().Undead();
+        if (currentHealth > 0 && WasLastHealthZero)
+        {
+            WasLastHealthZero = false;
+            GetComponent<Player>().Undead();
         }
-        if(currentHealth == 0){
+        if (currentHealth == 0)
+        {
             if (deadSound != null && !WasLastHealthZero)
                 audioSource.PlayOneShot(deadSound);
             WasLastHealthZero = true;
             if (gameObject.CompareTag(StringConstants.playerTag))
             {
                 GetComponent<Player>().Dead();
-
             }
-            if(gameObject.CompareTag(StringConstants.sphereTag))
+            if (gameObject.CompareTag(StringConstants.sphereTag))
             {
                 GetComponent<Spheres>().Dead();
-
             }
         }
 
     }
-
     void OnChangeHealth(int currentHealth)
     {
-        healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);       
+        healthBar.sizeDelta = new Vector2(currentHealth, healthBar.sizeDelta.y);
     }
-
+    
 }

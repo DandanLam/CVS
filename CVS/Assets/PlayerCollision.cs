@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+    
 
     void OnTriggerEnter(Collider other)
     {

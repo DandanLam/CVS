@@ -4,17 +4,21 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
 
-public class PlayerTracking : MonoBehaviour {
+public class PlayerTracking : NetworkBehaviour {
     static int sphereCount = 0;
     int mySphereNumber = -1;
+    
     public Transform target;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
+
+    [SyncVar]
+    private Vector3 targetPosition = new Vector3();
+    
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+        GetComponent<NavMeshAgent>().SetDestination(targetPosition);
+
+        if (!isServer) { return; }
+
         if (mySphereNumber < 0)
             mySphereNumber = sphereCount++;
 
@@ -30,8 +34,7 @@ public class PlayerTracking : MonoBehaviour {
         {
             Transform playerTransform = playerGameObject.transform;
             target = playerTransform;
-            Vector3 playerPosition = playerTransform.position;
-            GetComponent<NavMeshAgent>().SetDestination(playerPosition);
+            targetPosition = playerTransform.position;
         }
     }
 

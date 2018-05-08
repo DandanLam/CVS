@@ -5,9 +5,10 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class Player : NetworkBehaviour{
+    [SerializeField]
+    private Health myHealthComponent;
 
-
-    [SyncVar(hook = "OnChangeName")]
+    [SyncVar]
     public string name = "";
 
     [SyncVar]
@@ -92,10 +93,6 @@ public class Player : NetworkBehaviour{
             }            
         }
     }
-    void OnChangeName(string name)
-    {
-        playerNameText.text = name;
-    }
 
     [Command]
     void CmdThrowCube(Vector3 location)
@@ -110,21 +107,36 @@ public class Player : NetworkBehaviour{
         NetworkServer.Spawn(cubeBall);
     }
 
-
     //Touch another object with .tag name
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == StringConstants.pickableTag)
-        {
-            other.GetComponent<IPickUp>().PickMeUp();
-            CubitsNum++;
+        if (isLocalPlayer) {
+            if (other.tag == StringConstants.pickableTag)
+            {
+                CubitsNum++;
+            }
+
+            if (other.tag == StringConstants.sphereTag)
+            {
+                Debug.LogError("Calling take damage");
+                myHealthComponent.TakeDamage(Health.maxHealth / 4);
+            }
         }
+        
     }
+
 
     public void Dead()
     {
-        IsFrozen = true;
+        Debug.Log("Updating Player froze variable");
+        CmdDead();
         //freeze
+    }
+
+    [Command]
+    void CmdDead()
+    {
+        IsFrozen = true;
     }
 
     public void Undead()

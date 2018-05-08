@@ -8,10 +8,17 @@ public class Collectible : NetworkBehaviour, IPickUp {
     
     public void PickMeUp()
     {
-        //do someothing here
-        DestroyObject(this.gameObject);
+        Destroy(this.gameObject);
     }
+    
 
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == StringConstants.playerTag)
+        {
+            PickMeUp();
+        }
+    }
 
 }
 
