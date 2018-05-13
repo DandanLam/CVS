@@ -5,6 +5,9 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class Player : NetworkBehaviour{
+
+    public GameObject m_Prefab;
+
     [SerializeField]
     private Health myHealthComponent;
 
@@ -79,6 +82,7 @@ public class Player : NetworkBehaviour{
         //TODO will change when VR implementation
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
+            Instantiate(m_Prefab, transform.position, transform.rotation);
             if (CubitsNum <= 0)
             {
                 return;
