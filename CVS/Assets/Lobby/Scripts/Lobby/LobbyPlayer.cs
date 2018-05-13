@@ -17,6 +17,7 @@ namespace Prototype.NetworkLobby
 
         public Button colorButton;
         public InputField nameInput;
+        public Dropdown optionInput;
         public Button readyButton;
         public Button waitingPlayerButton;
         public Button removePlayerButton;
@@ -25,6 +26,8 @@ namespace Prototype.NetworkLobby
         public GameObject remoteIcone;
 
         //OnMyName function will be invoked on clients when server change the value of playerName
+        [SyncVar(hook = "OnMyOption")]
+        public int playerOption = 0;
         [SyncVar(hook = "OnMyName")]
         public string playerName = "";
         [SyncVar(hook = "OnMyColor")]
@@ -63,6 +66,7 @@ namespace Prototype.NetworkLobby
             //setup the player data on UI. The value are SyncVar so the player
             //will be created with the right value currently on server
             OnMyName(playerName);
+            OnMyOption(playerOption);
             OnMyColor(playerColor);
         }
 
@@ -89,6 +93,7 @@ namespace Prototype.NetworkLobby
         void SetupOtherPlayer()
         {
             nameInput.interactable = false;
+            optionInput.interactable = false;
             removePlayerButton.interactable = NetworkServer.active;
 
             ChangeReadyButtonColor(NotReadyColor);
@@ -101,6 +106,7 @@ namespace Prototype.NetworkLobby
 
         void SetupLocalPlayer()
         {
+            optionInput.interactable = true;
             nameInput.interactable = true;
             remoteIcone.gameObject.SetActive(false);
             localIcone.gameObject.SetActive(true);
@@ -122,9 +128,14 @@ namespace Prototype.NetworkLobby
             //we switch from simple name display to name input
             colorButton.interactable = true;
             nameInput.interactable = true;
+            optionInput.interactable = true;
+
 
             nameInput.onEndEdit.RemoveAllListeners();
             nameInput.onEndEdit.AddListener(OnNameChanged);
+
+            optionInput.onValueChanged.RemoveAllListeners();
+            optionInput.onValueChanged.AddListener(OnOptionChanged);
 
             colorButton.onClick.RemoveAllListeners();
             colorButton.onClick.AddListener(OnColorClicked);
@@ -162,6 +173,7 @@ namespace Prototype.NetworkLobby
                 readyButton.interactable = false;
                 colorButton.interactable = false;
                 nameInput.interactable = false;
+                optionInput.interactable = false;
             }
             else
             {
@@ -173,6 +185,7 @@ namespace Prototype.NetworkLobby
                 readyButton.interactable = isLocalPlayer;
                 colorButton.interactable = isLocalPlayer;
                 nameInput.interactable = isLocalPlayer;
+                optionInput.interactable = isLocalPlayer;
             }
         }
 
@@ -187,6 +200,12 @@ namespace Prototype.NetworkLobby
         {
             playerName = newName;
             nameInput.text = playerName;
+        }
+
+        public void OnMyOption(int index)
+        {
+            playerOption = index;
+            optionInput.value = index;
         }
 
         public void OnMyColor(Color newColor)
@@ -213,6 +232,12 @@ namespace Prototype.NetworkLobby
         {
             CmdNameChanged(str);
         }
+
+        public void OnOptionChanged(int n)
+        {
+            CmdOptionChanged(n);
+        }
+
 
         public void OnRemovePlayerClick()
         {
@@ -289,6 +314,12 @@ namespace Prototype.NetworkLobby
         public void CmdNameChanged(string name)
         {
             playerName = name;
+        }
+
+        [Command]
+        public void CmdOptionChanged(int index)
+        {
+            playerOption = index; 
         }
 
         //Cleanup thing when get destroy (which happen when client kick or disconnect)
