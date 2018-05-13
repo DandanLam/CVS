@@ -16,7 +16,8 @@ public class EnableIffSleeping : MonoBehaviour
     {
         if (m_Rigidbody == null || m_Behaviour == null)
             return;
-
+        bool Asleep = m_Rigidbody.IsSleeping();
+        bool enabled = m_Behaviour.enabled;
         if (m_Rigidbody.IsSleeping() && !m_Behaviour.enabled)
             m_Behaviour.enabled = true;
 
