@@ -16,7 +16,6 @@ public class SpawnObjects : NetworkBehaviour {
     private Vector3 planeScale;
     private Vector3 planeCenterPosition;
     private float timer;
-    private float range = 3f;
 
     // Use this for initialization
     public override void OnStartServer()
