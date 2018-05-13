@@ -5,6 +5,9 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class Player : NetworkBehaviour{
+
+    public GameObject m_Prefab;
+
     [SerializeField]
     private Health myHealthComponent;
 
@@ -79,6 +82,7 @@ public class Player : NetworkBehaviour{
         //TODO will change when VR implementation
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
+            
             if (CubitsNum <= 0)
             {
                 return;
@@ -102,6 +106,7 @@ public class Player : NetworkBehaviour{
 
         var leveledSpawnPoint = transform.position + targetVector.normalized * distancefromPlayer;
         GameObject cubeBall = Instantiate(throwableCubePrefab, leveledSpawnPoint, transform.rotation) as GameObject;
+        Instantiate(m_Prefab, leveledSpawnPoint, transform.rotation);
 
         cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange;
         NetworkServer.Spawn(cubeBall);
