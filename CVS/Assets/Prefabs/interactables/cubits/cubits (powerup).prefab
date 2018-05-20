@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114964727045613088}
   m_Layer: 0
   m_Name: cubits (powerup)
-  m_TagString: pickable
+  m_TagString: powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

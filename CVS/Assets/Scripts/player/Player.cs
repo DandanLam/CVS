@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Player : NetworkBehaviour{
 
-    public PowerUpType activePowerup;
+    public PowerUpType currentPowerup;
     bool powerupIsActive = false;
     DateTime powerupActivationTime = new DateTime(0);
     public GameObject m_Prefab;
@@ -44,18 +44,22 @@ public class Player : NetworkBehaviour{
 
     [SerializeField]
     private GameObject throwableCubePrefab;
-    
+
+    [SerializeField]
+    private GameObject throwableBoostedCubePrefab;
+
     // Use this for initialization
 
     [SerializeField]
     private GameObject clientOnlyObjects;
+
 
     [SerializeField]
     private Text playerNameText;
 
 	void Start () {
         playerNameText.text = name;
-        activePowerup = PowerUpType.NONE;
+        currentPowerup = PowerUpType.NONE;
         if (!isLocalPlayer)
         {
             clientOnlyObjects.SetActive(false);
@@ -85,12 +89,13 @@ public class Player : NetworkBehaviour{
         
         if (powerupIsActive)
         {
-            switch (activePowerup)
+            switch (currentPowerup)
             {
                 case PowerUpType.SPEED:
                     runSpeed  = 2 * defaultrunSpeed;
                     walkSpeed = 2 * defaultwalkSpeed;
                     break;
+                
             }
         }
 
@@ -114,12 +119,15 @@ public class Player : NetworkBehaviour{
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                CmdThrowCube(hit.point);
+                if (powerupIsActive && currentPowerup == PowerUpType.DAMAGE)
+                    CmdThrowCubeBoosted(hit.point);
+                else
+                    CmdThrowCube(hit.point);
             }            
         } else if (Input.GetMouseButtonDown(1))
         {
-            //TODO: Activate Special Ability
-            if (activePowerup != PowerUpType.NONE)
+            // Activate Special Ability
+            if (currentPowerup != PowerUpType.NONE)
             {
                 cubitsNum -= 5;
                 powerupIsActive = true;
@@ -132,13 +140,24 @@ public class Player : NetworkBehaviour{
     [Command]
     void CmdThrowCube(Vector3 location)
     {
+        ThrowCube(location, throwableCubePrefab);
+    }
+
+    [Command]
+    void CmdThrowCubeBoosted(Vector3 location)
+    {
+        ThrowCube(location, throwableBoostedCubePrefab);
+    }
+
+    void ThrowCube(Vector3 location, GameObject throwable)
+    {
         Vector3 leveledLocation = new Vector3(location.x, transform.position.y, location.z);
         Vector3 targetVector = leveledLocation - transform.position;
 
         var leveledSpawnPoint = transform.position + targetVector.normalized * distancefromPlayer;
-        GameObject cubeBall = Instantiate(throwableCubePrefab, leveledSpawnPoint, transform.rotation) as GameObject;
+        GameObject cubeBall = Instantiate(throwable, leveledSpawnPoint, transform.rotation) as GameObject;
 
-        cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange;
+        cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized * tossRange;
         NetworkServer.Spawn(cubeBall);
     }
 
@@ -154,7 +173,7 @@ public class Player : NetworkBehaviour{
                     break;
                 case StringConstants.powerupTag:
                     //TODO: Make random                   
-                    activePowerup = PowerUpType.SPEED;
+                    currentPowerup = PowerUpType.DAMAGE;
                     break;
             }
 
