@@ -87,16 +87,10 @@ public class Player : NetworkBehaviour{
             walkSpeed = 2.5f;
         }
         
-        if (powerupIsActive)
+        if (powerupIsActive && currentPowerup == PowerUpType.SPEED)
         {
-            switch (currentPowerup)
-            {
-                case PowerUpType.SPEED:
-                    runSpeed  = 2 * defaultrunSpeed;
-                    walkSpeed = 2 * defaultwalkSpeed;
-                    break;
-                
-            }
+            runSpeed  = 2 * defaultrunSpeed;
+            walkSpeed = 2 * defaultwalkSpeed;
         }
 
         var z = verticalAxis * Time.deltaTime * (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed);
@@ -119,7 +113,7 @@ public class Player : NetworkBehaviour{
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if (powerupIsActive && currentPowerup == PowerUpType.DAMAGE)
+                if (powerupIsActive && currentPowerup == PowerUpType.INVISIBLE)
                     CmdThrowCubeBoosted(hit.point);
                 else
                     CmdThrowCube(hit.point);
@@ -127,7 +121,7 @@ public class Player : NetworkBehaviour{
         } else if (Input.GetMouseButtonDown(1))
         {
             // Activate Special Ability
-            if (currentPowerup != PowerUpType.NONE)
+            if (currentPowerup != PowerUpType.NONE && cubitsNum >= 5)
             {
                 cubitsNum -= 5;
                 powerupIsActive = true;

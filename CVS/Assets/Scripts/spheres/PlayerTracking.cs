@@ -29,7 +29,8 @@ public class PlayerTracking : NetworkBehaviour {
             return;
         }
 
-        var playerGameObject = activePlayers[CalcPlayerToFollow(activePlayers.Count)];
+        //var playerGameObject = activePlayers[CalcPlayerToFollow(activePlayers.Count)];
+        var playerGameObject = CalcPlayerToFollow(activePlayers);
         if (playerGameObject != null)
         {
             Transform playerTransform = playerGameObject.transform;
@@ -38,15 +39,31 @@ public class PlayerTracking : NetworkBehaviour {
         }
     }
 
-    int CalcPlayerToFollow(int activePlayers)
+    GameObject CalcPlayerToFollow(List<GameObject> activePlayers)
     {
-        if (activePlayers == 0)
-            return -1;
-        else if (mySphereNumber == 0)
-            return 0;
-        else
-            return mySphereNumber % activePlayers;
+        float shortestDist = float.MaxValue;
+        GameObject nearestPlayer = null;
+        foreach (var activePlayer in activePlayers)
+        {
+            var dist = Vector3.Distance(activePlayer.transform.position, transform.position);
+            if (nearestPlayer == null || dist < shortestDist)
+            {
+                shortestDist = dist;
+                nearestPlayer = activePlayer;
+            }
+        }
+        return nearestPlayer;
     }
+
+    //int CalcPlayerToFollow(int activePlayers)
+    //{
+    //    if (activePlayers == 0)
+    //        return -1;
+    //    else if (mySphereNumber == 0)
+    //        return 0;
+    //    else
+    //        return mySphereNumber % activePlayers;
+    //}
 
     List<GameObject> GetActivePlayerGameObjects()
     {
