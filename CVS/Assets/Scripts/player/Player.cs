@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Player : NetworkBehaviour{
 
     public PowerUpType currentPowerup;
-    bool powerupIsActive = false;
+    public bool powerupIsActive { get; private set; }
     DateTime powerupActivationTime = new DateTime(0);
     public GameObject m_Prefab;
     float defaultrunSpeed = 5;
@@ -167,14 +167,14 @@ public class Player : NetworkBehaviour{
                     break;
                 case StringConstants.powerupTag:
                     //TODO: Make random                   
-                    currentPowerup = PowerUpType.DAMAGE;
+                    currentPowerup = PowerUpType.INVISIBLE;
                     break;
             }
 
             if (other.tag == StringConstants.sphereTag)
             {
                 //Debug.LogError("Calling take damage");
-                myHealthComponent.TakeDamage(Health.maxHealth / 4);
+                myHealthComponent.TakeDamage(25);
             }
         }
         

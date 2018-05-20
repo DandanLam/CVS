@@ -48,8 +48,13 @@ public class PlayerTracking : NetworkBehaviour {
             var dist = Vector3.Distance(activePlayer.transform.position, transform.position);
             if (nearestPlayer == null || dist < shortestDist)
             {
-                shortestDist = dist;
-                nearestPlayer = activePlayer;
+                var a = activePlayer.GetComponent<Player>().currentPowerup;
+                var b = activePlayer.GetComponent<Player>().powerupIsActive;
+                if (!(activePlayer.GetComponent<Player>().currentPowerup == PowerUpType.INVISIBLE && activePlayer.GetComponent<Player>().powerupIsActive))
+                {
+                    shortestDist = dist;
+                    nearestPlayer = activePlayer;
+                }
             }
         }
         return nearestPlayer;
