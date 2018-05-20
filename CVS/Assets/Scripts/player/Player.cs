@@ -113,7 +113,7 @@ public class Player : NetworkBehaviour{
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if (powerupIsActive && currentPowerup == PowerUpType.INVISIBLE)
+                if (powerupIsActive && currentPowerup == PowerUpType.DAMAGE)
                     CmdThrowCubeBoosted(hit.point);
                 else
                     CmdThrowCube(hit.point);
@@ -169,6 +169,7 @@ public class Player : NetworkBehaviour{
                     if (powerupIsActive)
                         powerupIsActive = false;
                     var rand = new System.Random();
+                    var renderer = gameObject.GetComponent<Renderer>();
                     switch (rand.Next(0, 2))
                     {
                         default:
@@ -176,16 +177,19 @@ public class Player : NetworkBehaviour{
                             if (currentPowerup == PowerUpType.SPEED)
                                 goto case 1;
                             currentPowerup = PowerUpType.SPEED;
+                            renderer.material.color = Color.yellow;
                             break;
                         case 1:
                             if (currentPowerup == PowerUpType.INVISIBLE)
                                 goto case 2;
                             currentPowerup = PowerUpType.INVISIBLE;
+                            renderer.material.color = Color.grey;
                             break;
                         case 2:
                             if (currentPowerup == PowerUpType.DAMAGE)
                                 goto case 0;
                             currentPowerup = PowerUpType.DAMAGE;
+                            renderer.material.color = Color.green;
                             break;
                         //case 3:
                         //    if (currentPowerup == PowerUpType.BUILDER)
