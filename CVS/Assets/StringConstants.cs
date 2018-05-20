@@ -8,5 +8,6 @@ public class StringConstants : MonoBehaviour {
     public const string sphereTag = "Sphere";
     public const string thorwableTag = "throwable";
     public const string pickableTag = "pickable";
+    public const string powerupTag = "powerup";
     public const string enemyProximityTag = "EnemyProximity";
 }
