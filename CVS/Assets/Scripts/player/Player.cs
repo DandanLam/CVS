@@ -106,7 +106,6 @@ public class Player : NetworkBehaviour{
 
         var leveledSpawnPoint = transform.position + targetVector.normalized * distancefromPlayer;
         GameObject cubeBall = Instantiate(throwableCubePrefab, leveledSpawnPoint, transform.rotation) as GameObject;
-        Instantiate(m_Prefab, leveledSpawnPoint, transform.rotation);
 
         cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange;
         NetworkServer.Spawn(cubeBall);
