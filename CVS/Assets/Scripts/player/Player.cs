@@ -9,7 +9,7 @@ public class Player : NetworkBehaviour{
 
     public PowerUpType currentPowerup;
     public bool powerupIsActive { get; private set; }
-    DateTime powerupActivationTime = new DateTime(0);
+    DateTime powerupActivationTime = new DateTime();
     public GameObject m_Prefab;
     float defaultrunSpeed = 5;
     float defaultwalkSpeed = 3;
@@ -60,6 +60,8 @@ public class Player : NetworkBehaviour{
 	void Start () {
         playerNameText.text = name;
         currentPowerup = PowerUpType.NONE;
+        var renderer = gameObject.GetComponent<Renderer>();
+        renderer.material.color = Color.white;
         if (!isLocalPlayer)
         {
             clientOnlyObjects.SetActive(false);
@@ -78,6 +80,11 @@ public class Player : NetworkBehaviour{
             return;
 
         powerupIsActive = powerupActivationTime.Add(TimeSpan.FromSeconds(10)) >= DateTime.Now ? true : false;
+        if (!powerupIsActive)
+        {
+            var renderer = gameObject.GetComponent<Renderer>();
+            renderer.material.color = Color.white;
+        }
 
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
         var verticalAxis = Input.GetAxis("Vertical");
@@ -126,6 +133,22 @@ public class Player : NetworkBehaviour{
                 cubitsNum -= 5;
                 powerupIsActive = true;
                 powerupActivationTime = DateTime.Now;
+                var renderer = gameObject.GetComponent<Renderer>();
+                switch (currentPowerup)
+                {
+                    case PowerUpType.SPEED:
+                        renderer.material.color = Color.blue;
+                        break;
+                    case PowerUpType.INVISIBLE:
+                        renderer.material.color = Color.black;
+                        break;
+                    case PowerUpType.DAMAGE:
+                        renderer.material.color = Color.green;
+                        break;
+                    case PowerUpType.BUILDER:
+                        //renderer.material.color = Color.yellow;
+                        break;
+                }
             }
         }
     } 
@@ -167,9 +190,9 @@ public class Player : NetworkBehaviour{
                     break;
                 case StringConstants.powerupTag:
                     if (powerupIsActive)
-                        powerupIsActive = false;
+                        powerupActivationTime = new DateTime();
                     var rand = new System.Random();
-                    var renderer = gameObject.GetComponent<Renderer>();
+                    
                     switch (rand.Next(0, 2))
                     {
                         default:
@@ -177,19 +200,17 @@ public class Player : NetworkBehaviour{
                             if (currentPowerup == PowerUpType.SPEED)
                                 goto case 1;
                             currentPowerup = PowerUpType.SPEED;
-                            renderer.material.color = Color.yellow;
+                            
                             break;
                         case 1:
                             if (currentPowerup == PowerUpType.INVISIBLE)
                                 goto case 2;
                             currentPowerup = PowerUpType.INVISIBLE;
-                            renderer.material.color = Color.grey;
                             break;
                         case 2:
                             if (currentPowerup == PowerUpType.DAMAGE)
                                 goto case 0;
                             currentPowerup = PowerUpType.DAMAGE;
-                            renderer.material.color = Color.green;
                             break;
                         //case 3:
                         //    if (currentPowerup == PowerUpType.BUILDER)
