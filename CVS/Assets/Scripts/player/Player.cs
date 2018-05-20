@@ -158,7 +158,7 @@ public class Player : NetworkBehaviour{
     //Touch another object with .tag name
     private void OnTriggerEnter(Collider other)
     {
-        if (isLocalPlayer && !powerupIsActive) {
+        if (isLocalPlayer) {
             switch (other.tag)
             {
                 default:
@@ -166,18 +166,39 @@ public class Player : NetworkBehaviour{
                     CubitsNum++;
                     break;
                 case StringConstants.powerupTag:
-                    //TODO: Make random                   
-                    currentPowerup = PowerUpType.INVISIBLE;
+                    if (powerupIsActive)
+                        powerupIsActive = false;
+                    var rand = new System.Random();
+                    switch (rand.Next(0, 2))
+                    {
+                        default:
+                        case 0:
+                            if (currentPowerup == PowerUpType.SPEED)
+                                goto case 1;
+                            currentPowerup = PowerUpType.SPEED;
+                            break;
+                        case 1:
+                            if (currentPowerup == PowerUpType.INVISIBLE)
+                                goto case 2;
+                            currentPowerup = PowerUpType.INVISIBLE;
+                            break;
+                        case 2:
+                            if (currentPowerup == PowerUpType.DAMAGE)
+                                goto case 0;
+                            currentPowerup = PowerUpType.DAMAGE;
+                            break;
+                        //case 3:
+                        //    if (currentPowerup == PowerUpType.BUILDER)
+                        //        goto case 0;
+                        //    currentPowerup = PowerUpType.BUILDER;
+                        //    break;
+                    }
+                    break;
+                case StringConstants.sphereTag:
+                    myHealthComponent.TakeDamage(25);
                     break;
             }
-
-            if (other.tag == StringConstants.sphereTag)
-            {
-                //Debug.LogError("Calling take damage");
-                myHealthComponent.TakeDamage(25);
-            }
         }
-        
     }
 
 
