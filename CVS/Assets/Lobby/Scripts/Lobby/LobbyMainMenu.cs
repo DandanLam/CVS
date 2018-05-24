@@ -14,6 +14,7 @@ namespace Prototype.NetworkLobby
 
         public InputField ipInput;
         public InputField matchNameInput;
+        public InputField matchPasswordInput;
 
         public void OnEnable()
         {
@@ -21,9 +22,7 @@ namespace Prototype.NetworkLobby
 
             ipInput.onEndEdit.RemoveAllListeners();
             ipInput.onEndEdit.AddListener(onEndEditIP);
-
-            matchNameInput.onEndEdit.RemoveAllListeners();
-            matchNameInput.onEndEdit.AddListener(onEndEditGameName);
+            
         }
 
         public void OnClickHost()
@@ -61,7 +60,7 @@ namespace Prototype.NetworkLobby
                 matchNameInput.text,
                 (uint)lobbyManager.maxPlayers,
                 true,
-				"", "", "", 0, 0,
+				matchPasswordInput.text, "", "", 0, 0,
 				lobbyManager.OnMatchCreate);
 
             lobbyManager.backDelegate = lobbyManager.StopHost;

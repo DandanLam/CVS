@@ -501,6 +501,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114352554596687192, guid: be070deba6367414db6b97cd44b2a969,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: be070deba6367414db6b97cd44b2a969, type: 2}
   m_IsPrefabParent: 0
@@ -880,7 +885,7 @@ Prefab:
     - target: {fileID: 114998260904250020, guid: 4d5c5b4ee4faab842b805ad5e2cef9ae,
         type: 2}
       propertyPath: spawnByNumber
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4d5c5b4ee4faab842b805ad5e2cef9ae, type: 2}

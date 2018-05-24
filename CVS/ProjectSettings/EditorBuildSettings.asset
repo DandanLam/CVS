@@ -6,8 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Lobby.unity
-    guid: 8dc4f03008b04ad4cb2f8f73be48e0d2
+    path: Assets/Scenes/DannyLobbyScene.unity
+    guid: 385d668aafd8fc240933f7efa229ed91
   - enabled: 1
     path: Assets/Scenes/main.unity
     guid: ae0176588fb27424ca3b236dc7affb09
+  m_configObjects: {}
