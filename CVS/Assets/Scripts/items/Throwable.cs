@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 
 public class Throwable : NetworkBehaviour{
 
+    public int DamagePoints;
     public AudioClip shotSound;
     Rigidbody myRigidbody;
     Vector3 oldVel;
@@ -43,7 +44,7 @@ public class Throwable : NetworkBehaviour{
                     var health = hit.GetComponent<Health>();
                     if (health != null)
                     {
-                        health.TakeDamage(-(Health.maxHealth / 2));
+                        health.TakeDamage(-(DamagePoints));
                     }
                     NetworkServer.Destroy(gameObject);
                 }
@@ -55,7 +56,7 @@ public class Throwable : NetworkBehaviour{
                     var health = hit.GetComponent<Health>();
                     if (health != null)
                     {
-                        health.TakeDamage((Health.maxHealth / 4));
+                        health.TakeDamage((DamagePoints));
                     }
                     NetworkServer.Destroy(gameObject);
                 }

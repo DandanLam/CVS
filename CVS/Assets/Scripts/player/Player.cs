@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -6,7 +7,12 @@ using UnityEngine.UI;
 
 public class Player : NetworkBehaviour{
 
+    public PowerUpType currentPowerup;
+    public bool powerupIsActive { get; private set; }
+    DateTime powerupActivationTime = new DateTime();
     public GameObject m_Prefab;
+    float defaultrunSpeed = 5;
+    float defaultwalkSpeed = 3;
 
     [SerializeField]
     private Health myHealthComponent;
@@ -38,17 +44,24 @@ public class Player : NetworkBehaviour{
 
     [SerializeField]
     private GameObject throwableCubePrefab;
-    
+
+    [SerializeField]
+    private GameObject throwableBoostedCubePrefab;
+
     // Use this for initialization
 
     [SerializeField]
     private GameObject clientOnlyObjects;
+
 
     [SerializeField]
     private Text playerNameText;
 
 	void Start () {
         playerNameText.text = name;
+        currentPowerup = PowerUpType.NONE;
+        var renderer = gameObject.GetComponent<Renderer>();
+        renderer.material.color = Color.white;
         if (!isLocalPlayer)
         {
             clientOnlyObjects.SetActive(false);
@@ -66,6 +79,13 @@ public class Player : NetworkBehaviour{
         if (IsFrozen)
             return;
 
+        powerupIsActive = powerupActivationTime.Add(TimeSpan.FromSeconds(10)) >= DateTime.Now ? true : false;
+        if (!powerupIsActive)
+        {
+            var renderer = gameObject.GetComponent<Renderer>();
+            renderer.material.color = Color.white;
+        }
+
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
         var verticalAxis = Input.GetAxis("Vertical");
         if (verticalAxis < 0)
@@ -73,6 +93,13 @@ public class Player : NetworkBehaviour{
             runSpeed  = 2.5f;
             walkSpeed = 2.5f;
         }
+        
+        if (powerupIsActive && currentPowerup == PowerUpType.SPEED)
+        {
+            runSpeed  = 2 * defaultrunSpeed;
+            walkSpeed = 2 * defaultwalkSpeed;
+        }
+
         var z = verticalAxis * Time.deltaTime * (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed);
 
         transform.Rotate(0, x, 0);
@@ -93,21 +120,61 @@ public class Player : NetworkBehaviour{
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                CmdThrowCube(hit.point);
+                if (powerupIsActive && currentPowerup == PowerUpType.DAMAGE)
+                    CmdThrowCubeBoosted(hit.point);
+                else
+                    CmdThrowCube(hit.point);
             }            
+        } else if (Input.GetMouseButtonDown(1))
+        {
+            // Activate Special Ability
+            if (currentPowerup != PowerUpType.NONE && cubitsNum >= 5)
+            {
+                cubitsNum -= 5;
+                powerupIsActive = true;
+                powerupActivationTime = DateTime.Now;
+                var renderer = gameObject.GetComponent<Renderer>();
+                switch (currentPowerup)
+                {
+                    case PowerUpType.SPEED:
+                        renderer.material.color = Color.blue;
+                        break;
+                    case PowerUpType.INVISIBLE:
+                        renderer.material.color = Color.black;
+                        break;
+                    case PowerUpType.DAMAGE:
+                        renderer.material.color = Color.green;
+                        break;
+                    case PowerUpType.BUILDER:
+                        //renderer.material.color = Color.yellow;
+                        break;
+                }
+            }
         }
-    }
+    } 
+    
 
     [Command]
     void CmdThrowCube(Vector3 location)
+    {
+        ThrowCube(location, throwableCubePrefab);
+    }
+
+    [Command]
+    void CmdThrowCubeBoosted(Vector3 location)
+    {
+        ThrowCube(location, throwableBoostedCubePrefab);
+    }
+
+    void ThrowCube(Vector3 location, GameObject throwable)
     {
         Vector3 leveledLocation = new Vector3(location.x, transform.position.y, location.z);
         Vector3 targetVector = leveledLocation - transform.position;
 
         var leveledSpawnPoint = transform.position + targetVector.normalized * distancefromPlayer;
-        GameObject cubeBall = Instantiate(throwableCubePrefab, leveledSpawnPoint, transform.rotation) as GameObject;
+        GameObject cubeBall = Instantiate(throwable, leveledSpawnPoint, transform.rotation) as GameObject;
 
-        cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized* tossRange;
+        cubeBall.GetComponent<Rigidbody>().velocity = targetVector.normalized * tossRange;
         NetworkServer.Spawn(cubeBall);
     }
 
@@ -115,18 +182,48 @@ public class Player : NetworkBehaviour{
     private void OnTriggerEnter(Collider other)
     {
         if (isLocalPlayer) {
-            if (other.tag == StringConstants.pickableTag)
+            switch (other.tag)
             {
-                CubitsNum++;
-            }
-
-            if (other.tag == StringConstants.sphereTag)
-            {
-                Debug.LogError("Calling take damage");
-                myHealthComponent.TakeDamage(Health.maxHealth / 4);
+                default:
+                case StringConstants.pickableTag:
+                    CubitsNum++;
+                    break;
+                case StringConstants.powerupTag:
+                    if (powerupIsActive)
+                        powerupActivationTime = new DateTime();
+                    var rand = new System.Random();
+                    
+                    switch (rand.Next(0, 2))
+                    {
+                        default:
+                        case 0:
+                            if (currentPowerup == PowerUpType.SPEED)
+                                goto case 1;
+                            currentPowerup = PowerUpType.SPEED;
+                            
+                            break;
+                        case 1:
+                            if (currentPowerup == PowerUpType.INVISIBLE)
+                                goto case 2;
+                            currentPowerup = PowerUpType.INVISIBLE;
+                            break;
+                        case 2:
+                            if (currentPowerup == PowerUpType.DAMAGE)
+                                goto case 0;
+                            currentPowerup = PowerUpType.DAMAGE;
+                            break;
+                        //case 3:
+                        //    if (currentPowerup == PowerUpType.BUILDER)
+                        //        goto case 0;
+                        //    currentPowerup = PowerUpType.BUILDER;
+                        //    break;
+                    }
+                    break;
+                case StringConstants.sphereTag:
+                    myHealthComponent.TakeDamage(25);
+                    break;
             }
         }
-        
     }
 
 
@@ -149,3 +246,5 @@ public class Player : NetworkBehaviour{
         //unfreeze
     }
 }
+
+public enum PowerUpType { NONE, SPEED, DAMAGE, INVISIBLE, BUILDER}

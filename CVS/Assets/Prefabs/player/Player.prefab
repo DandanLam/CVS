@@ -653,6 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc1fb8dcd08e00f469bebca0a27f535a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPowerup: 0
   m_Prefab: {fileID: 1878794188815040, guid: 2f496f00435071d40b427de48c3b69ea, type: 2}
   myHealthComponent: {fileID: 114228164998217860}
   name: 
@@ -661,6 +662,8 @@ MonoBehaviour:
   distancefromPlayer: 1.5
   cubitsNum: 10
   throwableCubePrefab: {fileID: 1589139563933404, guid: 947f224cdf991684ca286362bba6ad11,
+    type: 2}
+  throwableBoostedCubePrefab: {fileID: 1491959209994828, guid: e1e00ee26844e7542a46b0232a59f2bb,
     type: 2}
   clientOnlyObjects: {fileID: 1136618899042260}
   playerNameText: {fileID: 114095241720325018}
