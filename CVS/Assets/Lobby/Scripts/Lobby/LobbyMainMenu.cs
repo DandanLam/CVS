@@ -11,6 +11,7 @@ namespace Prototype.NetworkLobby
 
         public RectTransform lobbyServerList;
         public RectTransform lobbyPanel;
+        public RectTransform lobbyCreateGame;
 
         public InputField ipInput;
         public InputField matchNameInput;
@@ -55,12 +56,18 @@ namespace Prototype.NetworkLobby
 
         public void OnClickCreateMatchmakingGame()
         {
+            string pass = "";
+            if(matchPasswordInput != null)
+            {
+                pass = matchPasswordInput.text;
+            }
+
             lobbyManager.StartMatchMaker();
             lobbyManager.matchMaker.CreateMatch(
                 matchNameInput.text,
                 (uint)lobbyManager.maxPlayers,
                 true,
-				matchPasswordInput.text, "", "", 0, 0,
+                pass, "", "", 0, 0,
 				lobbyManager.OnMatchCreate);
 
             lobbyManager.backDelegate = lobbyManager.StopHost;
@@ -76,6 +83,13 @@ namespace Prototype.NetworkLobby
             lobbyManager.backDelegate = lobbyManager.SimpleBackClbk;
             lobbyManager.ChangeTo(lobbyServerList);
         }
+
+        public void OnClickCreateGame()
+        {
+            lobbyManager.backDelegate = lobbyManager.SimpleBackClbk;
+            lobbyManager.ChangeTo(lobbyCreateGame);
+        }
+
 
         void onEndEditIP(string text)
         {

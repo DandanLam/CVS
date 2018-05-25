@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/DannyLobbyScene.unity
+    path: Assets/Scenes/Lobby1.unity
     guid: 385d668aafd8fc240933f7efa229ed91
   - enabled: 1
     path: Assets/Scenes/main.unity

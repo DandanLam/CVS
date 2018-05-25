@@ -57,8 +57,9 @@ namespace Prototype.NetworkLobby
                 GameObject o = Instantiate(serverEntryPrefab) as GameObject;
 
 				o.GetComponent<LobbyServerEntry>().Populate(matches[i], lobbyManager, (i % 2 == 0) ? OddServerColor : EvenServerColor);
+               
 
-				o.transform.SetParent(serverListRect, false);
+                o.transform.SetParent(serverListRect, false);
             }
         }
 
@@ -77,7 +78,7 @@ namespace Prototype.NetworkLobby
         {
             previousPage = currentPage;
             currentPage = page;
-			lobbyManager.matchMaker.ListMatches(page, 6, "", true, 0, 0, OnGUIMatchList);
+			lobbyManager.matchMaker.ListMatches(page, 6, "", false, 0, 0, OnGUIMatchList);
 		}
     }
 }

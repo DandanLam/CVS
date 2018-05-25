@@ -28,15 +28,21 @@ namespace Prototype.NetworkLobby
         public RectTransform lobbyPanel;
 
         public LobbyInfoPanel infoPanel;
+        public LobbyPasswordInput enterPasswordPanel;
+        public LobbyWrongPasswordInput wrongPasswordPanel;
+
         public LobbyCountdownPanel countdownPanel;
         public GameObject addPlayerButton;
 
         protected RectTransform currentPanel;
 
+
         public Button backButton;
 
         public Text statusInfo;
         public Text hostInfo;
+
+        private GameObject currentModal;
 
         //Client numPlayers from NetworkManager is always 0, so we count (throught connect/destroy in LobbyPlayer) the number
         //of players, so that even client know how many player there is.
@@ -147,6 +153,33 @@ namespace Prototype.NetworkLobby
         {
             var _this = this;
             infoPanel.Display("Connecting...", "Cancel", () => { _this.backDelegate(); });
+            if (currentModal != null)
+            {
+                currentModal.SetActive(false);
+            }
+            currentModal = infoPanel.gameObject;
+        }
+
+        public void DisplayIsWrongPassword()
+        {
+            //really brute force way but whatevers
+            wrongPasswordPanel.Display("Incorrect Password", "Back", () => { mainMenuPanel.GetComponent<LobbyMainMenu>().OnClickOpenServerList(); });
+            if (currentModal != null)
+            {
+                currentModal.SetActive(false);
+            }
+            currentModal = wrongPasswordPanel.gameObject;
+        }
+
+        public void DisplayInputPassword(LobbyServerEntry entry, NetworkID networkID, LobbyManager lobbyManager)
+        {
+            enterPasswordPanel.Display("Enter Room Password", "OK", entry, networkID, lobbyManager);
+            if (currentModal != null)
+            {
+                currentModal.SetActive(false);
+            }
+            currentModal = enterPasswordPanel.gameObject;
+
         }
 
         public void SetServerInfo(string status, string host)
@@ -158,6 +191,7 @@ namespace Prototype.NetworkLobby
 
         public delegate void BackButtonDelegate();
         public BackButtonDelegate backDelegate;
+
         public void GoBackButton()
         {
             backDelegate();
@@ -407,7 +441,6 @@ namespace Prototype.NetworkLobby
             }
         }
 
-
         public override void OnClientDisconnect(NetworkConnection conn)
         {
             base.OnClientDisconnect(conn);
@@ -418,6 +451,16 @@ namespace Prototype.NetworkLobby
         {
             ChangeTo(mainMenuPanel);
             infoPanel.Display("Cient error : " + (errorCode == 6 ? "timeout" : errorCode.ToString()), "Close", null);
+        }
+        
+        public override void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
+        {
+            base.OnMatchJoined(success, extendedInfo, matchInfo);
+            if (!success)
+            {
+                DisplayIsWrongPassword();
+            }
+
         }
     }
 }
