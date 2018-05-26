@@ -15,17 +15,25 @@ namespace Prototype.NetworkLobby
         //used on server to avoid assigning the same color to two player
         static List<int> _colorInUse = new List<int>();
 
+        public LobbyModelTargets lobbyModelTargets;
+
         public Button colorButton;
         public InputField nameInput;
         public Dropdown optionInput;
         public Button readyButton;
         public Button waitingPlayerButton;
         public Button removePlayerButton;
+        public Button previousCharacter;
+        public Button nextCharacter;
+        public GameObject characterCamera;
+        public RawImage characterView;
 
         public GameObject localIcone;
         public GameObject remoteIcone;
 
         //OnMyName function will be invoked on clients when server change the value of playerName
+        [SyncVar(hook = "OnCharacterSelect")]
+        public int characterSel = 0;
         [SyncVar(hook = "OnMyOption")]
         public int playerOption = 0;
         [SyncVar(hook = "OnMyName")]
@@ -43,6 +51,17 @@ namespace Prototype.NetworkLobby
 
         //static Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         //static Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
+        public RenderTexture myRenderTexture;
+
+        private void Awake()
+        {
+            GameObject modelTargetObject = GameObject.Find("ModelTargets");
+            if(modelTargetObject != null)
+            {
+                lobbyModelTargets = modelTargetObject.GetComponent<LobbyModelTargets>();
+            }
+            characterCamera.transform.SetParent(null);
+        }
 
 
         public override void OnClientEnterLobby()
@@ -65,6 +84,7 @@ namespace Prototype.NetworkLobby
 
             //setup the player data on UI. The value are SyncVar so the player
             //will be created with the right value currently on server
+            OnCharacterSelect(characterSel);
             OnMyName(playerName);
             OnMyOption(playerOption);
             OnMyColor(playerColor);
@@ -92,9 +112,19 @@ namespace Prototype.NetworkLobby
 
         void SetupOtherPlayer()
         {
+            myRenderTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
+            myRenderTexture.Create();
+
+            characterCamera.SetActive(true);
+            characterCamera.GetComponent<Camera>().targetTexture = myRenderTexture;
+
+            characterView.texture = myRenderTexture;
+
             nameInput.interactable = false;
             optionInput.interactable = false;
             removePlayerButton.interactable = NetworkServer.active;
+            nextCharacter.interactable = false;
+            previousCharacter.interactable = false;
 
             ChangeReadyButtonColor(NotReadyColor);
 
@@ -106,11 +136,21 @@ namespace Prototype.NetworkLobby
 
         void SetupLocalPlayer()
         {
+            myRenderTexture = new RenderTexture(256, 256, 16, RenderTextureFormat.ARGB32);
+            myRenderTexture.Create();
+
+            characterCamera.SetActive(true);
+            characterCamera.GetComponent<Camera>().targetTexture = myRenderTexture;
+
+            characterView.texture = myRenderTexture;
+
             optionInput.interactable = true;
             nameInput.interactable = true;
             remoteIcone.gameObject.SetActive(false);
             localIcone.gameObject.SetActive(true);
-
+            nextCharacter.gameObject.SetActive(true);
+            previousCharacter.gameObject.SetActive(true);
+            
             CheckRemoveButton();
 
             if (playerColor == Color.white)
@@ -129,6 +169,8 @@ namespace Prototype.NetworkLobby
             colorButton.interactable = true;
             nameInput.interactable = true;
             optionInput.interactable = true;
+            nextCharacter.interactable = true;
+            previousCharacter.interactable = true;
 
 
             nameInput.onEndEdit.RemoveAllListeners();
@@ -142,6 +184,12 @@ namespace Prototype.NetworkLobby
 
             readyButton.onClick.RemoveAllListeners();
             readyButton.onClick.AddListener(OnReadyClicked);
+
+            nextCharacter.onClick.RemoveAllListeners();
+            nextCharacter.onClick.AddListener(OnNextClicked);
+
+            previousCharacter.onClick.RemoveAllListeners();
+            previousCharacter.onClick.AddListener(OnPreviousClicked);
 
             //when OnClientEnterLobby is called, the loval PlayerController is not yet created, so we need to redo that here to disable
             //the add button if we reach maxLocalPlayer. We pass 0, as it was already counted on OnClientEnterLobby
@@ -174,6 +222,8 @@ namespace Prototype.NetworkLobby
                 colorButton.interactable = false;
                 nameInput.interactable = false;
                 optionInput.interactable = false;
+                nextCharacter.interactable = false;
+                previousCharacter.interactable = false;
             }
             else
             {
@@ -182,6 +232,8 @@ namespace Prototype.NetworkLobby
                 Text textComponent = readyButton.transform.GetChild(0).GetComponent<Text>();
                 textComponent.text = isLocalPlayer ? "JOIN" : "...";
                 textComponent.color = Color.white;
+                nextCharacter.interactable = isLocalPlayer;
+                previousCharacter.interactable = isLocalPlayer;
                 readyButton.interactable = isLocalPlayer;
                 colorButton.interactable = isLocalPlayer;
                 nameInput.interactable = isLocalPlayer;
@@ -200,6 +252,13 @@ namespace Prototype.NetworkLobby
         {
             playerName = newName;
             nameInput.text = playerName;
+        }
+        public Transform cameraTarget;
+        public void OnCharacterSelect(int charIndex)
+        {
+            cameraTarget = lobbyModelTargets.ModelList[charIndex].GetComponent<LobbyModel>().CameraLocation;
+            Debug.Log("Updating location: " + cameraTarget.position);
+            characterCamera.transform.SetPositionAndRotation(cameraTarget.position, cameraTarget.rotation);
         }
 
         public void OnMyOption(int index)
@@ -228,6 +287,21 @@ namespace Prototype.NetworkLobby
             SendReadyToBeginMessage();
         }
 
+        public void OnNextClicked ()
+        {
+            OnCharacterSelected(1);
+        }
+
+        public void OnPreviousClicked()
+        {
+            OnCharacterSelected(-1);
+        }
+
+        public void OnCharacterSelected(int charIndex)
+        {
+            CmdCharacterSelected(charIndex);
+        }
+
         public void OnNameChanged(string str)
         {
             CmdNameChanged(str);
@@ -238,7 +312,6 @@ namespace Prototype.NetworkLobby
             CmdOptionChanged(n);
         }
 
-
         public void OnRemovePlayerClick()
         {
             if (isLocalPlayer)
@@ -246,8 +319,7 @@ namespace Prototype.NetworkLobby
                 RemovePlayer();
             }
             else if (isServer)
-                LobbyManager.s_Singleton.KickPlayer(connectionToClient);
-                
+                LobbyManager.s_Singleton.KickPlayer(connectionToClient);                
         }
 
         public void ToggleJoinButton(bool enabled)
@@ -308,6 +380,26 @@ namespace Prototype.NetworkLobby
             }
 
             playerColor = Colors[idx];
+        }
+
+        [Command]
+        public void CmdCharacterSelected(int charIndex)
+        {
+            int temp = characterSel;
+            temp += charIndex;
+
+            if (temp < 0)
+            {
+                characterSel = lobbyModelTargets.ModelList.Count - 1;
+            }
+            else if (temp >= lobbyModelTargets.ModelList.Count)
+            {
+                characterSel = 0;
+            }
+            else
+            {
+                characterSel += charIndex;
+            }
         }
 
         [Command]
