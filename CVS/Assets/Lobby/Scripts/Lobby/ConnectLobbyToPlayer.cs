@@ -11,7 +11,8 @@ namespace Prototype.NetworkLobby {
             var cc = lobbyPlayer.GetComponent<LobbyPlayer>();
             string name = cc.playerName;
             var player = gamePlayer.GetComponent<Player>();
-            player.name = name;
+            player.playerName = name;
+            player.characterSel = cc.characterSel;
         }
     }
 

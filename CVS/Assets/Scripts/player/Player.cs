@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class Player : NetworkBehaviour{
-
     public PowerUpType currentPowerup;
     public bool powerupIsActive { get; private set; }
     DateTime powerupActivationTime = new DateTime();
@@ -14,21 +13,30 @@ public class Player : NetworkBehaviour{
     float defaultrunSpeed = 5;
     float defaultwalkSpeed = 3;
 
-    [SerializeField]
-    private Health myHealthComponent;
-
-    [SyncVar]
-    public string name = "";
-
-    [SyncVar]
+    [SyncVar(hook = "OnMyName")]
+    public string playerName = "";
+    [SyncVar(hook = "OnCharacterSelect")]
+    public int characterSel = 0;
+    [SyncVar(hook = "OnFrozen")]
     public bool IsFrozen = false;
 
+    //Accessable references within Unity Editor
     [SerializeField]
     private float tossRange = 5f;
-
+    [SerializeField]
+    private Health myHealthComponent;
     [SerializeField]
     private float distancefromPlayer = 1.1f;
-
+    [SerializeField]
+    private GameObject throwableCubePrefab;
+    [SerializeField]
+    private GameObject throwableBoostedCubePrefab;
+    [SerializeField]
+    private PlayerAppearance playerAppearance;
+    [SerializeField]
+    private GameObject clientOnlyObjects;
+    [SerializeField]
+    private Text playerNameText;
     [SerializeField]
     private int cubitsNum;
     public int CubitsNum
@@ -42,31 +50,34 @@ public class Player : NetworkBehaviour{
         }
     }
 
-    [SerializeField]
-    private GameObject throwableCubePrefab;
-
-    [SerializeField]
-    private GameObject throwableBoostedCubePrefab;
-
-    // Use this for initialization
-
-    [SerializeField]
-    private GameObject clientOnlyObjects;
-
-
-    [SerializeField]
-    private Text playerNameText;
-
 	void Start () {
-        playerNameText.text = name;
         currentPowerup = PowerUpType.NONE;
-        var renderer = gameObject.GetComponent<Renderer>();
-        renderer.material.color = Color.white;
-        if (!isLocalPlayer)
+        //var renderer = gameObject.GetComponent<Renderer>();
+        //renderer.material.color = Color.white;
+        playerAppearance.setColor(Color.white);
+        if (isLocalPlayer)
         {
-            clientOnlyObjects.SetActive(false);
+            SetupLocalPlayer();
         }
-	}
+        else
+        {
+            SetupOtherPlayer();
+        }
+
+        OnMyName(playerName);
+        OnCharacterSelect(characterSel);
+    }
+
+    void SetupLocalPlayer()
+    {
+        clientOnlyObjects.SetActive(true);
+
+    }
+    void SetupOtherPlayer()
+    {
+        clientOnlyObjects.SetActive(false);
+
+    }
 
     void Update()
     {
@@ -82,8 +93,10 @@ public class Player : NetworkBehaviour{
         powerupIsActive = powerupActivationTime.Add(TimeSpan.FromSeconds(10)) >= DateTime.Now ? true : false;
         if (!powerupIsActive)
         {
-            var renderer = gameObject.GetComponent<Renderer>();
-            renderer.material.color = Color.white;
+            //var renderer = gameObject.GetComponent<Renderer>();
+            //renderer.material.color = Color.white;
+
+            playerAppearance.setColor(Color.white); // this will affect the material off all objects that have it on scene.
         }
 
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
@@ -151,9 +164,10 @@ public class Player : NetworkBehaviour{
                 }
             }
         }
-    } 
-    
+    }
 
+
+    #region COMMANDS
     [Command]
     void CmdThrowCube(Vector3 location)
     {
@@ -165,6 +179,14 @@ public class Player : NetworkBehaviour{
     {
         ThrowCube(location, throwableBoostedCubePrefab);
     }
+
+    [Command]
+    void CmdDead()
+    {
+        IsFrozen = true;
+    }
+
+    #endregion
 
     void ThrowCube(Vector3 location, GameObject throwable)
     {
@@ -234,17 +256,30 @@ public class Player : NetworkBehaviour{
         //freeze
     }
 
-    [Command]
-    void CmdDead()
-    {
-        IsFrozen = true;
-    }
-
     public void Undead()
     {
         IsFrozen = false;
         //unfreeze
     }
+
+
+    #region HOOKS
+    public void OnMyName(string newName)
+    {
+        playerName = newName;
+        playerNameText.text = playerName;
+    }
+
+    public void OnCharacterSelect(int charIndex)
+    {
+        playerAppearance.SetApperance(charIndex);
+    }
+
+    public void OnFrozen(bool toggle)
+    {
+        IsFrozen = toggle;
+    }
+    #endregion
 }
 
 public enum PowerUpType { NONE, SPEED, DAMAGE, INVISIBLE, BUILDER}
