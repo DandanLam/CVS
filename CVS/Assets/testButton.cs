@@ -20,7 +20,6 @@ public class testButton : MonoBehaviour {
     {
         if (other.tag == StringConstants.playerTag)
         {
-            Debug.Log("player detected");
             myAnim.SetBool("Pushed", true);
         }
     }
@@ -29,7 +28,6 @@ public class testButton : MonoBehaviour {
     {
         if (other.tag == StringConstants.playerTag)
         {
-            Debug.Log("player left");
             myAnim.SetBool("Pushed", false);
         }
 

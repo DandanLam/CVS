@@ -51,7 +51,7 @@ public class Player : NetworkBehaviour{
     }
 
 	void Start () {
-        currentPowerup = PowerUpType.NONE;
+        //currentPowerup = PowerUpType.NONE;
         //var renderer = gameObject.GetComponent<Renderer>();
         //renderer.material.color = Color.white;
         playerAppearance.setColor(Color.white);
@@ -146,19 +146,23 @@ public class Player : NetworkBehaviour{
                 cubitsNum -= 5;
                 powerupIsActive = true;
                 powerupActivationTime = DateTime.Now;
-                var renderer = gameObject.GetComponent<Renderer>();
+                //var renderer = gameObject.GetComponent<Renderer>();
                 switch (currentPowerup)
                 {
                     case PowerUpType.SPEED:
-                        renderer.material.color = Color.blue;
+                        playerAppearance.setColor(Color.blue);
+                        //renderer.material.color = Color.blue;
                         break;
                     case PowerUpType.INVISIBLE:
-                        renderer.material.color = Color.black;
+                        playerAppearance.setColor(Color.black);
+                        //renderer.material.color = Color.black;
                         break;
                     case PowerUpType.DAMAGE:
-                        renderer.material.color = Color.green;
+                        playerAppearance.setColor(Color.green);
+                        //renderer.material.color = Color.green;
                         break;
                     case PowerUpType.BUILDER:
+                        playerAppearance.setColor(Color.yellow);
                         //renderer.material.color = Color.yellow;
                         break;
                 }

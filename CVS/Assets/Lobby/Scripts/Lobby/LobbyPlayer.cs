@@ -253,11 +253,12 @@ namespace Prototype.NetworkLobby
             playerName = newName;
             nameInput.text = playerName;
         }
+
         public Transform cameraTarget;
+
         public void OnCharacterSelect(int charIndex)
         {
             cameraTarget = lobbyModelTargets.ModelList[charIndex].GetComponent<LobbyModel>().CameraLocation;
-            Debug.Log("Updating location: " + cameraTarget.position);
             characterCamera.transform.SetPositionAndRotation(cameraTarget.position, cameraTarget.rotation);
         }
 
