@@ -39,6 +39,10 @@ public class Player : NetworkBehaviour{
     private Text playerNameText;
     [SerializeField]
     private int cubitsNum;
+    [SerializeField]
+    private PlayerMouseIcon leftIcons;
+    [SerializeField]
+    private PlayerMouseIcon rightIcons;
     public int CubitsNum
     {
         get { return cubitsNum; }
@@ -170,6 +174,16 @@ public class Player : NetworkBehaviour{
         }
     }
 
+    void setRightClickIcon(PowerUpType type)
+    {
+        rightIcons.setIcon(type);
+    }
+
+    void setLeftClickIcon(PowerUpType type)
+    {
+        leftIcons.setIcon(type);
+    }
+
 
     #region COMMANDS
     [Command]
@@ -276,7 +290,7 @@ public class Player : NetworkBehaviour{
 
     public void OnCharacterSelect(int charIndex)
     {
-        playerAppearance.SetApperance(charIndex);
+        playerAppearance.setApperance(charIndex);
     }
 
     public void OnFrozen(bool toggle)

@@ -7,7 +7,7 @@ public class PlayerAppearance : MonoBehaviour {
     public List<GameObject> ListOfApperances = new List<GameObject>();
     public GameObject activeApperance = null;
 
-    public void SetApperance(int index)
+    public void setApperance(int index)
     {
         foreach(GameObject o in ListOfApperances)
         {
