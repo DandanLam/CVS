@@ -5,13 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Lobby.unity
     guid: 385d668aafd8fc240933f7efa229ed91
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/main.unity
     guid: ae0176588fb27424ca3b236dc7affb09
-  - enabled: 1
+  - enabled: 0
     path: Assets/Photon Unity Networking/Demos/DemoPickup/DemoPickup-Scene.unity
     guid: 42026d6c332a6b5438ed37ef7af9fba8
+  - enabled: 0
+    path: Assets/Photon Unity Networking/Demos/DemoBoxes/DemoBoxes-Scene.unity
+    guid: 484b70123468e8d47b39976c6516756b
+  - enabled: 0
+    path: Assets/Photon Unity Networking/Demos/DemoMecanim/DemoMecanim-Scene.unity
+    guid: 2fefc96b2a4a31b4092fa7bbea08afaf
+  - enabled: 0
+    path: Assets/Photon Unity Networking/Demos/DemoSynchronization/DemoSynchronization-Scene.unity
+    guid: caec1ee6e27780946b8db3d1aebaa478
   m_configObjects: {}

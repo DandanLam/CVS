@@ -180,8 +180,7 @@ public class PickupItem : Photon.MonoBehaviour, IPunObservable
             Invoke("PunRespawn", timeUntilRespawn);
         }
     }
-
-
+    
     [PunRPC]
     internal void PunRespawn(Vector3 pos)
     {
@@ -198,8 +197,7 @@ public class PickupItem : Photon.MonoBehaviour, IPunObservable
         double timeDiffToRespawnTime = PhotonNetwork.time - this.TimeOfRespawn;
         if (timeDiffToRespawnTime > 0.1f) Debug.LogWarning("Spawn time is wrong by: " + timeDiffToRespawnTime + " (this is not an error. you just need to be aware of this.)");
         #endif
-
-
+        
         // if this is called from another thread, we might want to do this in OnEnable() instead of here (depends on Invoke's implementation)
         PickupItem.DisabledPickupItems.Remove(this);
         this.TimeOfRespawn = 0;
